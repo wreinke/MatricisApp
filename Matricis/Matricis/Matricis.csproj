@@ -41,6 +41,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\Criteria.cs" />
+    <Compile Include="Models\Option.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLite-AppSample\SQLiteSamplePage.cs" />
     <Compile Include="SQLite-AppSample\TodoItem.cs" />

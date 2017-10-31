@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 
 using Xamarin.Forms;
+using XamarinForms.SQLite;
 
 namespace Matricis {
     public partial class App : Application {
         public App() {
             InitializeComponent();
 
-            MainPage = new Matricis.MainPage();
+            MainPage = new SQLiteSamplePage().GetSampleContentPage();
         }
 
         protected override void OnStart() {
