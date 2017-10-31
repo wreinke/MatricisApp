@@ -51,6 +51,9 @@
     <Compile Include="SQLite-AppSample\SQLiteSamplePage.cs" />
     <Compile Include="SQLite-AppSample\TodoItem.cs" />
     <Compile Include="SQLite\ISQLite.cs" />
+    <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\CriteriaViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainPage.xaml">
@@ -86,7 +89,6 @@
     <Content Include="SQLite-AppSample\readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

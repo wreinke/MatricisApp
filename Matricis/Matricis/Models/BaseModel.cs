@@ -31,8 +31,7 @@ namespace Matricis.Models {
         public DateTimeOffset UpdatedAt { get; set; }
 
         public BaseModel() {
-            {
-                Id = Guid.NewGuid().ToString();
-            }
+            Id = Guid.NewGuid().ToString();
+        }
     }
 }
