@@ -39,6 +39,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\MessagingCenterAlert.cs" />
+    <Compile Include="Helper\ObservableObject.cs" />
+    <Compile Include="Helper\ObservableRangeCollection.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
