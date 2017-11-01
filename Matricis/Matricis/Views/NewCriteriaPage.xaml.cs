@@ -1,6 +1,4 @@
 ﻿using Matricis.Models;
-using System;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,11 +15,6 @@ namespace Matricis.Views {
             };
 
             BindingContext = this;
-        }
-
-        async void Save_Clicked(object sender, EventArgs e) {
-            MessagingCenter.Send(this, "AddCriteria", Criteria);
-            await Navigation.PopToRootAsync();
         }
     }
 }

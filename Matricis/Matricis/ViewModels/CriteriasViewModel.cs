@@ -1,28 +1,36 @@
 ﻿using Matricis.Helpers;
 using Matricis.Models;
+using Matricis.Views;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Matricis.ViewModels {
-    public class CriteriaViewModel : BaseViewModel {
+    public class CriteriasViewModel : BaseViewModel {
+
         public ObservableRangeCollection<Criteria> Criterias { get; set; }
         public Command LoadItemsCommand { get; set; }
+        public Command AddItemClickedCommand { get; set; }
 
-        public CriteriaViewModel() {
+        public CriteriasViewModel() {
             Title = "Browse";
             Criterias = new ObservableRangeCollection<Criteria>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            LoadItemsCommand = new Command(() => ExecuteLoadItemsCommand());
+            AddItemClickedCommand = new Command(async() => await AddItemClickedAsync());
 
-            MessagingCenter.Subscribe<NewItemPage, Criteria>(this, "AddItem", async (obj, item) => {
+            MessagingCenter.Subscribe<NewCriteriaPage, Criteria>(this, "AddItem", async (obj, item) => {
                 var _criteria = item as Criteria;
                 Criterias.Add(_criteria);
                 _sqLiteConnection.Insert(new Criteria());
             });
         }
 
-        async Task ExecuteLoadItemsCommand() {
+        private async Task AddItemClickedAsync() {
+            await App.Current.MainPage.Navigation.PushAsync(new NewCriteriaPage());
+        }
+
+        private void ExecuteLoadItemsCommand() {
             if (IsBusy)
                 return;
 

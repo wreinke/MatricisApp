@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Matricis.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,29 @@ namespace Matricis {
         public App() {
             InitializeComponent();
 
-            MainPage = new SQLiteSamplePage().GetSampleContentPage();
+
+            // DBTEST--  MainPage = new SQLiteSamplePage().GetSampleContentPage();
+
+            SetMainPage();
+
+        }
+
+        public static void SetMainPage() {
+            Current.MainPage = new TabbedPage {
+                Children =
+                {
+                    new NavigationPage(new CriteriasPage())
+                    {
+                        Title = "Browse",
+                        Icon = Device.OnPlatform("tab_feed.png",null,null)
+                    },
+                    new NavigationPage(new AboutPage())
+                    {
+                        Title = "About",
+                        Icon = Device.OnPlatform("tab_about.png",null,null)
+                    },
+                }
+            };
         }
 
         protected override void OnStart() {
