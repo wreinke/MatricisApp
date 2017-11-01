@@ -1,12 +1,14 @@
-﻿namespace Matricis.ViewModels {
+﻿using Matricis.Models;
 
-    public class CriteriaDetailViewModel {
+namespace Matricis.ViewModels {
 
-        public Criteria criteria { get; set; }
+    public class CriteriaDetailViewModel : BaseViewModel {
+        
+        public Criteria Criteria { get; set; }
 
         public CriteriaDetailViewModel(Criteria item = null) {
-            Title = item.Text;
-            Item = item;
+            Title = item.Title;
+            Criteria = item;
         }
 
         int quantity = 1;

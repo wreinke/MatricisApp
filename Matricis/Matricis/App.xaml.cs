@@ -13,7 +13,7 @@ namespace Matricis {
             InitializeComponent();
 
 
-            // DBTEST--  MainPage = new SQLiteSamplePage().GetSampleContentPage();
+            // MainPage = new SQLiteSamplePage().GetSampleContentPage();
 
             SetMainPage();
 
