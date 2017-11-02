@@ -12,14 +12,14 @@ namespace Matricis.ViewModels {
     public class CriteriasViewModel : BaseViewModel {
 
         public ObservableRangeCollection<Criteria> Criterias { get; set; }
-        public Command LoadItemsCommand { get; set; }
+        public Command LoadCriteriasCommand { get; set; }
         public Command AddItemClickedCommand { get; set; }
 
         public CriteriasViewModel() {
             Title = "Browse";
             Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.Table<Criteria>().ToList());
-            //LoadItemsCommand = new Command(() => ExecuteLoadItemsCommand());
-            //AddItemClickedCommand = new Command(async() => await AddItemClickedAsync());
+            LoadCriteriasCommand = new Command(() => ExecuteLoadCriteriasCommand());
+            AddItemClickedCommand = new Command(async () => await AddItemClickedAsync());
 
             MessagingCenter.Subscribe<NewCriteriaPage, Criteria>(this, "AddItem", async (obj, item) => {
                 var _criteria = item as Criteria;
@@ -28,29 +28,26 @@ namespace Matricis.ViewModels {
             });
         }
 
-        //private async Task AddItemClickedAsync() {
-        //    //await App.Current.MainPage.Navigation.PushAsync(new NewCriteriaPage());
-        //}
+        private async Task AddItemClickedAsync() {
 
-        //private void ExecuteLoadItemsCommand() {
-        //    if (IsBusy)
-        //        return;
+            await Application.Current.MainPage.Navigation.PushAsync(new NewCriteriaPage());
+        //    TabbedPage navpa = Application.Current.MainPage as TabbedPage;
+        //    NavigationPage x = navpa.Children.FirstOrDefault() as NavigationPage;
+        //    await navpa.Navigation.PushAsync(new NewCriteriaPage());
+        }
 
-        //    IsBusy = true;
+        private void ExecuteLoadCriteriasCommand() {
+            if (IsBusy)
+                return;
 
-        //    try {
-        //        Criterias.Clear();
-        //        var criterias = SqLiteConnection.Table<Criteria>();
-        //        Criterias.ReplaceRange(criterias);
-        //    } catch (Exception ex) {
-        //        Debug.WriteLine(ex);
-        //        MessagingCenter.Send(new MessagingCenterAlert {
-        //            Title = "Error",
-        //            Message = "Unable to load items.",
-        //            Cancel = "OK"
-        //        }, "message");
-        //    } finally {
-        //        IsBusy = false;
-        //    }
+            IsBusy = true;
+
+            try {
+                Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.Table<Criteria>().ToList());
+            } catch (Exception ex) {
+            } finally {
+                IsBusy = false;
+            }
+        }
     }
 }

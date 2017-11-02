@@ -9,18 +9,24 @@ using XamarinForms.SQLite;
 
 namespace Matricis {
     public partial class App : Application {
+
+        public Page MyTab { get; set; }
+
         public App() {
             InitializeComponent();
 
 
             // MainPage = new SQLiteSamplePage().GetSampleContentPage();
-
-            SetMainPage();
+                       
+            MainPage = new NavigationPage(new CriteriasPage()) {
+                Title = "Browse",
+                Icon = Device.OnPlatform("tab_feed.png", null, null)
+            };
 
         }
 
-        public static void SetMainPage() {
-            Current.MainPage = new TabbedPage {
+        public static TabbedPage SetMainPage() {
+            return new TabbedPage {
                 Children =
                 {
                     new NavigationPage(new CriteriasPage())
