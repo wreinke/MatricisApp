@@ -22,12 +22,12 @@ namespace Matricis.ViewModels {
             MessagingCenter.Subscribe<NewCriteriaPage, Criteria>(this, "AddItem", async (obj, item) => {
                 var _criteria = item as Criteria;
                 Criterias.Add(_criteria);
-                _sqLiteConnection.Insert(new Criteria());
+                SqLiteConnection.Insert(new Criteria());
             });
         }
 
         private async Task AddItemClickedAsync() {
-            await App.Current.MainPage.Navigation.PushAsync(new NewCriteriaPage());
+            //await App.Current.MainPage.Navigation.PushAsync(new NewCriteriaPage());
         }
 
         private void ExecuteLoadItemsCommand() {
@@ -38,7 +38,7 @@ namespace Matricis.ViewModels {
 
             try {
                 Criterias.Clear();
-                var criterias = _sqLiteConnection.Table<Criteria>();
+                var criterias = SqLiteConnection.Table<Criteria>();
                 Criterias.ReplaceRange(criterias);
             } catch (Exception ex) {
                 Debug.WriteLine(ex);

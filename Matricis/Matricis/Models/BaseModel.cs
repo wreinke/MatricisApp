@@ -13,7 +13,7 @@ namespace Matricis.Models {
         /// Azure created at time stamp
         /// </summary>
         [PrimaryKey, AutoIncrement]
-        public String Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Azure created at time stamp
@@ -29,9 +29,5 @@ namespace Matricis.Models {
         /// Azure UpdateAt timestamp for online/offline sync
         /// </summary>
         public DateTimeOffset UpdatedAt { get; set; }
-
-        public BaseModel() {
-            Id = Guid.NewGuid().ToString();
-        }
     }
 }

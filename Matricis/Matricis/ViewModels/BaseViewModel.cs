@@ -8,8 +8,8 @@ namespace Matricis.ViewModels {
         /// <summary>
         /// Get the azure service instance
         /// </summary>
-        protected readonly SQLiteConnection _sqLiteConnection = DependencyService.Get<ISQLite>().GetConnection();
-
+        protected readonly SQLiteConnection SqLiteConnection = DependencyService.Get<ISQLite>().GetConnection();
+        
         bool isBusy = false;
         public bool IsBusy
         {
