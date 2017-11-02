@@ -2,7 +2,9 @@
 using Matricis.Models;
 using Matricis.Views;
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -15,9 +17,9 @@ namespace Matricis.ViewModels {
 
         public CriteriasViewModel() {
             Title = "Browse";
-            Criterias = new ObservableRangeCollection<Criteria>();
-            LoadItemsCommand = new Command(() => ExecuteLoadItemsCommand());
-            AddItemClickedCommand = new Command(async() => await AddItemClickedAsync());
+            Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.Table<Criteria>().ToList());
+            //LoadItemsCommand = new Command(() => ExecuteLoadItemsCommand());
+            //AddItemClickedCommand = new Command(async() => await AddItemClickedAsync());
 
             MessagingCenter.Subscribe<NewCriteriaPage, Criteria>(this, "AddItem", async (obj, item) => {
                 var _criteria = item as Criteria;
@@ -26,30 +28,29 @@ namespace Matricis.ViewModels {
             });
         }
 
-        private async Task AddItemClickedAsync() {
-            //await App.Current.MainPage.Navigation.PushAsync(new NewCriteriaPage());
-        }
+        //private async Task AddItemClickedAsync() {
+        //    //await App.Current.MainPage.Navigation.PushAsync(new NewCriteriaPage());
+        //}
 
-        private void ExecuteLoadItemsCommand() {
-            if (IsBusy)
-                return;
+        //private void ExecuteLoadItemsCommand() {
+        //    if (IsBusy)
+        //        return;
 
-            IsBusy = true;
+        //    IsBusy = true;
 
-            try {
-                Criterias.Clear();
-                var criterias = SqLiteConnection.Table<Criteria>();
-                Criterias.ReplaceRange(criterias);
-            } catch (Exception ex) {
-                Debug.WriteLine(ex);
-                MessagingCenter.Send(new MessagingCenterAlert {
-                    Title = "Error",
-                    Message = "Unable to load items.",
-                    Cancel = "OK"
-                }, "message");
-            } finally {
-                IsBusy = false;
-            }
-        }
+        //    try {
+        //        Criterias.Clear();
+        //        var criterias = SqLiteConnection.Table<Criteria>();
+        //        Criterias.ReplaceRange(criterias);
+        //    } catch (Exception ex) {
+        //        Debug.WriteLine(ex);
+        //        MessagingCenter.Send(new MessagingCenterAlert {
+        //            Title = "Error",
+        //            Message = "Unable to load items.",
+        //            Cancel = "OK"
+        //        }, "message");
+        //    } finally {
+        //        IsBusy = false;
+        //    }
     }
 }

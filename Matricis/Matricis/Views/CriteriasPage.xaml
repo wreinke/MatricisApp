@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Matricis.ViewModels"
              x:Class="Matricis.Views.CriteriasPage">
-             x:Name="BrowseCriteriasPage"
-             Title="{Binding Title}">
     <ContentPage.BindingContext>
         <vm:CriteriasViewModel/>
     </ContentPage.BindingContext>
@@ -13,8 +11,9 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
+            <Label>Hallo FromToop</Label>
             <ListView x:Name="ItemsListView"
-				ItemsSource="{Binding Items}"
+				ItemsSource="{Binding Criterias}"
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"
                 RefreshCommand="{Binding LoadItemsCommand}"
@@ -26,11 +25,11 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="10">
-                                <Label Text="{Binding Text}"
+                                <Label Text="{Binding Title}"
                        LineBreakMode="NoWrap"
                        Style="{DynamicResource ListItemTextStyle}"
                        FontSize="16"/>
-                                <Label Text="{Binding Description}"
+                                <Label Text="{Binding Descripion}"
                        LineBreakMode="NoWrap"
                        Style="{DynamicResource ListItemDetailTextStyle}"
                        FontSize="13"/>

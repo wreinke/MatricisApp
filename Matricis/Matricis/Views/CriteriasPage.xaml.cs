@@ -24,7 +24,7 @@ namespace Matricis.Views {
             await Navigation.PushAsync(new CriteriaDetailPage(new CriteriaDetailViewModel(criteria)));
 
             // Manually deselect criteria
-            ItemsListView.SelectedItem = null;
+            //ItemsListView.SelectedItem = null;
         }
 
     }
