@@ -46,6 +46,7 @@
     </Compile>
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Criteria.cs" />
+    <Compile Include="Models\Evaluation.cs" />
     <Compile Include="Models\Option.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLite-AppSample\SQLiteSamplePage.cs" />
@@ -55,7 +56,10 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CriteriaDetailViewModel.cs" />
     <Compile Include="ViewModels\CriteriasViewModel.cs" />
+    <Compile Include="ViewModels\EvaluationsDetailViewModel.cs" />
+    <Compile Include="ViewModels\EvaluationsViewModel.cs" />
     <Compile Include="ViewModels\NewCriteriaViewModel.cs" />
+    <Compile Include="ViewModels\NewEvaluationViewModel.cs" />
     <Compile Include="ViewModels\NewOptionViewModel.cs" />
     <Compile Include="ViewModels\OptionDetailViewModel.cs" />
     <Compile Include="ViewModels\OptionsViewModel.cs" />
@@ -68,8 +72,17 @@
     <Compile Include="Views\CriteriasPage.xaml.cs">
       <DependentUpon>CriteriasPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EvaluationDetailPage.xaml.cs">
+      <DependentUpon>EvaluationDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EvaluationsPage.xaml.cs">
+      <DependentUpon>EvaluationsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NewCriteriaPage.xaml.cs">
       <DependentUpon>NewCriteriaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewEvaluationPage.xaml.cs">
+      <DependentUpon>NewEvaluationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NewOptionPage.xaml.cs">
       <DependentUpon>NewOptionPage.xaml</DependentUpon>
@@ -152,6 +165,24 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\NewOptionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\EvaluationsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\NewEvaluationPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\EvaluationDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

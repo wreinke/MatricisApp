@@ -22,9 +22,13 @@ namespace Matricis {
             return new TabbedPage {
                 Children =
                 {
+                    new NavigationPage(new EvaluationsPage())
+                    {
+                        Title = "Evaluations"
+                    },
                     new NavigationPage(new CriteriasPage())
                     {
-                        Title = "Browse",
+                        Title = "Criterias",
                         Icon = Device.OnPlatform("tab_feed.png",null,null)
                     },
                     new NavigationPage(new OptionsPage()) {
