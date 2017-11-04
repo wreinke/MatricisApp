@@ -4,6 +4,7 @@ using Xamarin.Forms;
 namespace Matricis.ViewModels {
 
     public class CriteriaDetailViewModel : BaseViewModel {
+
         private Criteria criteria;
 
         public Criteria Criteria
