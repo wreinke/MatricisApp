@@ -1,4 +1,5 @@
 ﻿using Matricis.Models;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Matricis.ViewModels {
@@ -11,18 +12,26 @@ namespace Matricis.ViewModels {
         public NewCriteriaViewModel() {
             Criteria = new Criteria();
 
-            SaveClickedCommand = new Command(() => SaveClicked());
+            SaveClickedCommand = new Command(async () => await SaveClickedAsync());
         }
 
-        private void SaveClicked() {
+        private async Task SaveClickedAsync() {
             if (Criteria != null) {
-                try {
+                try 
+                    {
                     SqLiteConnection.Insert(Criteria);
-                } catch (SQLite.SQLiteException e) {
-                    if(e.Message == "no such table: Criteria") {
+                    }
+                catch (SQLite.SQLiteException e) 
+                {
+                    if(e.Message == "no such table: Criteria")
+                        {
                         SqLiteConnection.CreateTable<Criteria>();
                         SqLiteConnection.Insert(Criteria);
                     }
+                } 
+                finally {
+                    var _vm = new CriteriasViewModel();
+                    await Application.Current.MainPage.Navigation.PopToRootAsync();
                 }
             }
         }

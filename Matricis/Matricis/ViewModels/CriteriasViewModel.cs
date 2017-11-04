@@ -11,7 +11,23 @@ using Xamarin.Forms;
 namespace Matricis.ViewModels {
     public class CriteriasViewModel : BaseViewModel {
 
+        Criteria selectedItem;
+
         public ObservableRangeCollection<Criteria> Criterias { get; set; }
+        public Criteria SelectedItem {
+            get {
+
+                return this.selectedItem;
+
+            } set {
+
+                this.selectedItem = value;
+                Application.Current.MainPage.Navigation.PushAsync(new CriteriaDetailPage());
+            }
+        }
+
+
+
         public Command LoadCriteriasCommand { get; set; }
         public Command AddItemClickedCommand { get; set; }
 

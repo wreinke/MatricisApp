@@ -17,12 +17,8 @@ namespace Matricis {
 
 
             // MainPage = new SQLiteSamplePage().GetSampleContentPage();
-                       
-            MainPage = new NavigationPage(new CriteriasPage()) {
-                Title = "Browse",
-                Icon = Device.OnPlatform("tab_feed.png", null, null)
-            };
 
+            MainPage = new NavigationPage(SetMainPage());
         }
 
         public static TabbedPage SetMainPage() {

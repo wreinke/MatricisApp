@@ -6,9 +6,9 @@ namespace Matricis.ViewModels {
         
         public Criteria Criteria { get; set; }
 
-        public CriteriaDetailViewModel(Criteria item = null) {
-            Title = item.Title;
-            Criteria = item;
+        public CriteriaDetailViewModel() {
+            //Title = item.Title;
+            //Criteria = item;
         }
 
         int quantity = 1;

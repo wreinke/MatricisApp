@@ -11,16 +11,16 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <Label>Hallo FromToop</Label>
             <ListView x:Name="ItemsListView"
-				ItemsSource="{Binding Criterias}"
+				BackgroundColor="Aqua"
+                ItemsSource="{Binding Criterias}"
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"
                 RefreshCommand="{Binding LoadCriteriasCommand}"
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                CachingStrategy="RecycleElement"
-				ItemSelected="OnItemSelected">
+                CachingStrategy="RecycleElement">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
