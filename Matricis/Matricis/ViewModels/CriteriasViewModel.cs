@@ -23,6 +23,8 @@ namespace Matricis.ViewModels {
 
                 this.selectedItem = value;
                 Application.Current.MainPage.Navigation.PushAsync(new CriteriaDetailPage());
+                MessagingCenter.Send<CriteriasViewModel, Criteria>(this, "CriteriaSelectedM", SelectedItem);
+
             }
         }
 
