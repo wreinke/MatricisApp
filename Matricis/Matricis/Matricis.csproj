@@ -38,6 +38,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helper\MessagingCenterAlert.cs" />
+    <Compile Include="Helper\ObservableObject.cs" />
+    <Compile Include="Helper\ObservableRangeCollection.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -48,6 +51,23 @@
     <Compile Include="SQLite-AppSample\SQLiteSamplePage.cs" />
     <Compile Include="SQLite-AppSample\TodoItem.cs" />
     <Compile Include="SQLite\ISQLite.cs" />
+    <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\CriteriaDetailViewModel.cs" />
+    <Compile Include="ViewModels\CriteriasViewModel.cs" />
+    <Compile Include="ViewModels\NewCriteriaViewModel.cs" />
+    <Compile Include="Views\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CriteriaDetailPage.xaml.cs">
+      <DependentUpon>CriteriaDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CriteriasPage.xaml.cs">
+      <DependentUpon>CriteriasPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewCriteriaPage.xaml.cs">
+      <DependentUpon>NewCriteriaPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainPage.xaml">
@@ -81,6 +101,30 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SQLite-AppSample\readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\AboutPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\NewCriteriaPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\CriteriasPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\CriteriaDetailPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.4.0.38779\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.4.0.38779\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />
