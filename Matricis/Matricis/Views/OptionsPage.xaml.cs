@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Matricis.Views {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class OptionsPage : ContentPage {
-        public OptionsPage() {
-            InitializeComponent();
-        }
-    }
+namespace Matricis.Views
+{
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class OptionsPage : ContentPage
+	{
+		public OptionsPage ()
+		{
+			InitializeComponent ();
+		}
+	}
 }

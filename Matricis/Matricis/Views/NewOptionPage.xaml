@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                          xmlns:vm="clr-namespace:Matricis.ViewModels"
+             xmlns:vm="clr-namespace:Matricis.ViewModels"
              x:Class="Matricis.Views.NewOptionPage">
     <ContentPage.BindingContext>
         <vm:NewOptionViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save" Clicked="Save_Clicked"/>
+        <ToolbarItem Text="Save" Command="{Binding SaveClickedCommand}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
             <Label Text="Text" FontSize="Medium" />
-            <Entry Text="{Binding Criteria.Title}" FontSize="Small"/>
+            <Entry Text="{Binding Option.Title}" FontSize="Small"/>
             <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Criteria.Descripion}" FontSize="Small" Margin="0" />
+            <Editor Text="{Binding Option.Score}" FontSize="Small" Margin="0" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

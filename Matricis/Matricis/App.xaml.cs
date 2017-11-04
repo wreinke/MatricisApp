@@ -15,13 +15,10 @@ namespace Matricis {
         public App() {
             InitializeComponent();
 
-
-            // MainPage = new SQLiteSamplePage().GetSampleContentPage();
-
-            MainPage = new NavigationPage(SetMainPage());
+            MainPage = new NavigationPage(SetTabPage());
         }
 
-        public static TabbedPage SetMainPage() {
+        public static TabbedPage SetTabPage() {
             return new TabbedPage {
                 Children =
                 {
@@ -30,14 +27,14 @@ namespace Matricis {
                         Title = "Browse",
                         Icon = Device.OnPlatform("tab_feed.png",null,null)
                     },
+                    new NavigationPage(new OptionsPage()) {
+                        Title = "Options"
+                    },
                     new NavigationPage(new AboutPage())
                     {
                         Title = "About",
                         Icon = Device.OnPlatform("tab_about.png",null,null)
                     },
-                    new NavigationPage(new NewCriteriaPage()) {
-                        Title = "newCrieriaPage.xaml"
-                    }
                 }
             };
         }

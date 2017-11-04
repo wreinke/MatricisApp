@@ -30,10 +30,10 @@ namespace Matricis.ViewModels {
                     }
                 } 
                 finally {
-                    var _vm = new CriteriasViewModel();
+                    MessagingCenter.Send<NewCriteriaViewModel>(this,"AddCriteriaM");
                     await Application.Current.MainPage.Navigation.PopToRootAsync();
                 }
             }
         }
-    }
+     }
 }

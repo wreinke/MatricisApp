@@ -13,7 +13,20 @@ namespace Matricis.ViewModels {
 
         Criteria selectedItem;
 
-        public ObservableRangeCollection<Criteria> Criterias { get; set; }
+        private ObservableRangeCollection<Criteria> criterias;
+
+        public ObservableRangeCollection<Criteria> Criterias
+        {
+            get
+            {
+                return criterias;
+            }
+            set
+            {
+                SetProperty(ref criterias, value);
+            }
+        }
+
         public Criteria SelectedItem {
             get {
 
@@ -36,25 +49,20 @@ namespace Matricis.ViewModels {
         public CriteriasViewModel() {
             Title = "Browse";
             Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.Table<Criteria>().ToList());
-            LoadCriteriasCommand = new Command(() => ExecuteLoadCriteriasCommand());
+            LoadCriteriasCommand = new Command(() => LoadCriterias());
             AddItemClickedCommand = new Command(async () => await AddItemClickedAsync());
 
-            MessagingCenter.Subscribe<NewCriteriaPage, Criteria>(this, "AddItem", async (obj, item) => {
-                var _criteria = item as Criteria;
-                Criterias.Add(_criteria);
-                SqLiteConnection.Insert(new Criteria());
+            MessagingCenter.Subscribe<NewCriteriaViewModel>(this, "AddCriteriaM", (sender) => {
+                LoadCriterias();
             });
         }
 
         private async Task AddItemClickedAsync() {
 
             await Application.Current.MainPage.Navigation.PushAsync(new NewCriteriaPage());
-        //    TabbedPage navpa = Application.Current.MainPage as TabbedPage;
-        //    NavigationPage x = navpa.Children.FirstOrDefault() as NavigationPage;
-        //    await navpa.Navigation.PushAsync(new NewCriteriaPage());
         }
 
-        private void ExecuteLoadCriteriasCommand() {
+        private void LoadCriterias() {
             if (IsBusy)
                 return;
 
