@@ -8,7 +8,9 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin Forms!" />
+            <Label Text="{Binding Criteria.Descripion}" />
+            <Label Text="{Binding Criteria.Title}" />
+            <Label Text="{Binding Criteria.Id}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
