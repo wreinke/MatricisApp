@@ -33,7 +33,8 @@ namespace Matricis.ViewModels {
                         await Application.Current.MainPage.Navigation.PopToRootAsync();
                 }
 
-                await Application.Current.MainPage.Navigation.PopToRootAsync();
+                var page = Application.Current.MainPage as TabbedPage;
+                await page.Children.First().Navigation.PopToRootAsync();
             }
         }
     }

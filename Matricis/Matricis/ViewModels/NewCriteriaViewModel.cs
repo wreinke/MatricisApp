@@ -1,4 +1,5 @@
 ﻿using Matricis.Models;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -31,7 +32,8 @@ namespace Matricis.ViewModels {
                 } 
                 finally {
                     MessagingCenter.Send<NewCriteriaViewModel>(this,"AddCriteriaM");
-                    await Application.Current.MainPage.Navigation.PopToRootAsync();
+                    var page = Application.Current.MainPage as TabbedPage;
+                    await page.Children.First().Navigation.PopToRootAsync();
                 }
             }
         }

@@ -62,7 +62,8 @@ namespace Matricis.ViewModels
 
         private async Task AddItemClickedAsync() {
 
-            await Application.Current.MainPage.Navigation.PushAsync(new NewOptionPage());
+            var page = Application.Current.MainPage as TabbedPage;
+            await page.Children.First().Navigation.PushAsync(new NewOptionPage());
         }
 
         private void LoadOptions() {

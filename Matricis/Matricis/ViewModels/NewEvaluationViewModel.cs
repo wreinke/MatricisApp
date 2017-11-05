@@ -30,10 +30,12 @@ namespace Matricis.ViewModels {
                     }
                 } finally {
                     MessagingCenter.Send<NewEvaluationViewModel>(this, "AddEvaluationM");
-                    await Application.Current.MainPage.Navigation.PopToRootAsync();
+                    var page = Application.Current.MainPage as TabbedPage;
+                    NavigationPage navPage = page.Children[0] as NavigationPage;
+                    await navPage.Navigation.PopAsync();
                 }
 
-                await Application.Current.MainPage.Navigation.PopToRootAsync();
+                //await Application.Current.MainPage.Navigation.PopToRootAsync();
             }
         }
     }

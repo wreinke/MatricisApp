@@ -6,9 +6,9 @@
     <ContentPage.BindingContext>
         <vm:CriteriasViewModel/>
     </ContentPage.BindingContext>
-    <!--<ContentPage.ToolbarItems>
+    <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add Item" Command="{Binding AddItemClickedCommand}" />
-    </ContentPage.ToolbarItems>-->
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="ItemsListView"
