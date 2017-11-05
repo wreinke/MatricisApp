@@ -48,7 +48,7 @@ namespace Matricis.ViewModels {
 
         public CriteriasViewModel() {
             Title = "Browse";
-            Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.Table<Criteria>().ToList());
+            LoadCriterias();
             LoadCriteriasCommand = new Command(() => LoadCriterias());
             AddItemClickedCommand = new Command(async () => await AddItemClickedAsync());
 
@@ -71,6 +71,9 @@ namespace Matricis.ViewModels {
             try {
                 Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.Table<Criteria>().ToList());
             } catch (Exception ex) {
+                if(ex.Message == "no such table: Criteria") {
+                    SqLiteConnection.CreateTable<Criteria>();
+                }
             } finally {
                 IsBusy = false;
             }

@@ -10,6 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace Matricis.Views {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EvaluationsPage : ContentPage {
+
         public EvaluationsPage() {
             InitializeComponent();
         }
