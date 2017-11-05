@@ -13,6 +13,8 @@ namespace Matricis.ViewModels {
 
         Criteria selectedItem;
 
+        public Evaluation CurrentEvaluation { get; set; }
+
         private ObservableRangeCollection<Criteria> criterias;
 
         public ObservableRangeCollection<Criteria> Criterias
@@ -27,12 +29,16 @@ namespace Matricis.ViewModels {
             }
         }
 
-        public Criteria SelectedItem {
-            get {
+        public Criteria SelectedItem
+        {
+            get
+            {
 
                 return this.selectedItem;
 
-            } set {
+            }
+            set
+            {
 
                 this.selectedItem = value;
                 Application.Current.MainPage.Navigation.PushAsync(new CriteriaDetailPage());
@@ -55,6 +61,12 @@ namespace Matricis.ViewModels {
             MessagingCenter.Subscribe<NewCriteriaViewModel>(this, "AddCriteriaM", (sender) => {
                 LoadCriterias();
             });
+
+            MessagingCenter.Subscribe<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", (sender, args) => {
+                CurrentEvaluation = args;
+                LoadCriterias();
+            });
+
         }
 
         private async Task AddItemClickedAsync() {
@@ -65,18 +77,22 @@ namespace Matricis.ViewModels {
         private void LoadCriterias() {
             if (IsBusy)
                 return;
-
             IsBusy = true;
 
-            try {
-                Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.Table<Criteria>().ToList());
-            } catch (Exception ex) {
-                if(ex.Message == "no such table: Criteria") {
-                    SqLiteConnection.CreateTable<Criteria>();
-                }
-            } finally {
-                IsBusy = false;
+            if(Criterias != null) {
+                Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
             }
+
+
+
+            //try {
+            //    Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.Table<Criteria>().ToList());
+            //} catch (Exception ex) {
+            //    if(ex.Message == "no such table: Criteria") {
+            //        SqLiteConnection.CreateTable<Criteria>();
+            //    }
+            //} finally {
+            IsBusy = false;
         }
     }
 }

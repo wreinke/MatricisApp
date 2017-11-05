@@ -38,6 +38,9 @@ namespace Matricis.ViewModels {
             {
 
                 this.selectedItem = value;
+
+                MessagingCenter.Send<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", selectedItem);
+
                 //Application.Current.MainPage.Navigation.PushAsync(new OptionDetailPage());
                 //MessagingCenter.Send<OptionsViewModel, Option>(this, "OptionSelectedM", SelectedItem);
 
@@ -62,7 +65,12 @@ namespace Matricis.ViewModels {
             await page.Children.First().Navigation.PushAsync(new NewEvaluationPage());
         }
 
+
         private void LoadEvaluations() {
+
+            // For testing
+            var x = SqLiteConnection.DropTable<Evaluation>();
+
             if (IsBusy)
                 return;
 
