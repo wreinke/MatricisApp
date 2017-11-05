@@ -2,6 +2,7 @@
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "Plugin.SQLite": "1.0.4",
+    "SQLiteNetExtensions": "2.0.0-alpha2",
     "Xamarin.Forms": "2.4.0.38779"
   },
   "frameworks": {

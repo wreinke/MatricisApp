@@ -17,25 +17,25 @@ namespace Matricis.ViewModels {
         }
 
         private async Task SaveClickedAsync() {
-            if (Criteria != null) {
-                try 
-                    {
-                    SqLiteConnection.Insert(Criteria);
-                    }
-                catch (SQLite.SQLiteException e) 
-                {
-                    if(e.Message == "no such table: Criteria")
-                        {
-                        SqLiteConnection.CreateTable<Criteria>();
-                        SqLiteConnection.Insert(Criteria);
-                    }
-                } 
-                finally {
-                    MessagingCenter.Send<NewCriteriaViewModel>(this,"AddCriteriaM");
+            //if (Criteria != null) {
+            //    try 
+            //        {
+            //        SqLiteConnection.Insert(Criteria);
+            //        }
+            //    catch (SQLite.SQLiteException e) 
+            //    {
+            //        if(e.Message == "no such table: Criteria")
+            //            {
+            //            SqLiteConnection.CreateTable<Criteria>();
+            //            SqLiteConnection.Insert(Criteria);
+            //        }
+            //    } 
+            //    finally {
+                    MessagingCenter.Send<NewCriteriaViewModel,Criteria>(this,"AddCriteriaM",Criteria);
                     var page = Application.Current.MainPage as TabbedPage;
-                    await page.Children.First().Navigation.PopToRootAsync();
-                }
+                    await page.Children[1].Navigation.PopToRootAsync();
+                //}
             }
         }
-     }
+     
 }

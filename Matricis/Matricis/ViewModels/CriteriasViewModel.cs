@@ -1,6 +1,7 @@
 ﻿using Matricis.Helpers;
 using Matricis.Models;
 using Matricis.Views;
+using SQLiteNetExtensions.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -53,46 +54,46 @@ namespace Matricis.ViewModels {
         public Command AddItemClickedCommand { get; set; }
 
         public CriteriasViewModel() {
+
+            // For testing
+            var x = SqLiteConnection.DropTable<Criteria>();
+            SqLiteConnection.CreateTable<Criteria>();
+            SqLiteConnection.Insert(new Criteria { Title = "asd", Descripion = "asdad", EvaluationId = 999 });
+            
+
             Title = "Browse";
-            LoadCriterias();
-            LoadCriteriasCommand = new Command(() => LoadCriterias());
             AddItemClickedCommand = new Command(async () => await AddItemClickedAsync());
 
-            MessagingCenter.Subscribe<NewCriteriaViewModel>(this, "AddCriteriaM", (sender) => {
-                LoadCriterias();
+            MessagingCenter.Subscribe<NewCriteriaViewModel, Criteria>(this, "AddCriteriaM", (sender,args) => {
+
+                if(Criterias != null) {
+                    Criterias.Add(args);
+                } else {
+                    Criterias = new ObservableRangeCollection<Criteria>();
+                    Criterias.Add(args);
+                }
+                CurrentEvaluation.Criterias = Criterias.ToList();
+                SqLiteConnection.InsertWithChildren(CurrentEvaluation);
+
+                var d = SqLiteConnection.Table<Evaluation>().ToList();
             });
 
             MessagingCenter.Subscribe<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", (sender, args) => {
                 CurrentEvaluation = args;
-                LoadCriterias();
+                if (CurrentEvaluation.Criterias != null) {
+                    Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
+                } 
+                else {
+                    Criterias = new ObservableRangeCollection<Criteria>();
+                }
             });
 
         }
 
         private async Task AddItemClickedAsync() {
             var page = Application.Current.MainPage as TabbedPage;
-            await page.Children.First().Navigation.PushAsync(new NewCriteriaPage());
+            await page.Children[1].Navigation.PushAsync(new NewCriteriaPage());
         }
-
-        private void LoadCriterias() {
-            if (IsBusy)
-                return;
-            IsBusy = true;
-
-            if(Criterias != null) {
-                Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
-            }
-
-
-
-            //try {
-            //    Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.Table<Criteria>().ToList());
-            //} catch (Exception ex) {
-            //    if(ex.Message == "no such table: Criteria") {
-            //        SqLiteConnection.CreateTable<Criteria>();
-            //    }
-            //} finally {
-            IsBusy = false;
         }
     }
-}
+
