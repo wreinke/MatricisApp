@@ -7,6 +7,7 @@ namespace Matricis.Models {
         public int Score { get; set; }
 
         [ForeignKey(typeof(Evaluation))]
+
         public int EId { get; set; }
     }
 }
