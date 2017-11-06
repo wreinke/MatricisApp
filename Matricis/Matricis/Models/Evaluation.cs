@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Matricis.Models {
     public class Evaluation : BaseModel {
 
-        [OneToMany(CascadeOperations = CascadeOperation.All)]
+        [OneToMany]
         public List<Criteria> Criterias { get; set; }
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]

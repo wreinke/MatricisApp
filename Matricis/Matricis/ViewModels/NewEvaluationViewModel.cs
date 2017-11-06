@@ -16,11 +16,15 @@ namespace Matricis.ViewModels {
         public NewEvaluationViewModel() {
             Evaluation = new Evaluation();
 
+
             SaveClickedCommand = new Command(async () => await SaveClickedAsync());
         }
 
         private async Task SaveClickedAsync() {
             if (Evaluation != null) {
+                Evaluation.Criterias = new List<Criteria>();
+                Evaluation.Options = new List<Option>();
+
                 try {
                     SqLiteConnection.Insert(Evaluation);
                 } catch (Exception e) {

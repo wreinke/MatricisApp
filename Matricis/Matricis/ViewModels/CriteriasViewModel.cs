@@ -56,11 +56,7 @@ namespace Matricis.ViewModels {
         public CriteriasViewModel() {
 
             // For testing
-            var x = SqLiteConnection.DropTable<Criteria>();
-            SqLiteConnection.CreateTable<Criteria>();
-            SqLiteConnection.Insert(new Criteria { Title = "asd", Descripion = "asdad", EvaluationId = 999 });
             
-
             Title = "Browse";
             AddItemClickedCommand = new Command(async () => await AddItemClickedAsync());
 
@@ -73,13 +69,23 @@ namespace Matricis.ViewModels {
                     Criterias.Add(args);
                 }
                 CurrentEvaluation.Criterias = Criterias.ToList();
-                SqLiteConnection.InsertWithChildren(CurrentEvaluation);
+                SqLiteConnection.Insert(CurrentEvaluation);
+                SqLiteConnection.Insert(args);
+                SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
+                //SqLiteConnection.InsertWithChildren(CurrentEvaluation);
 
-                var d = SqLiteConnection.Table<Evaluation>().ToList();
+                // var d = SqLiteConnection.Table<Evaluation>().ToList();
             });
 
             MessagingCenter.Subscribe<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", (sender, args) => {
                 CurrentEvaluation = args;
+
+                var x = SqLiteConnection.DropTable<Criteria>();
+                SqLiteConnection.CreateTable<Criteria>();
+                SqLiteConnection.Insert(new Criteria { Title = "asd", Descripion = "asdad", EvaluationId = CurrentEvaluation.Id });
+                SqLiteConnection.Insert(new Criteria { Title = "test", Descripion = "test1", EvaluationId = CurrentEvaluation.Id });
+
+
                 if (CurrentEvaluation.Criterias != null) {
                     Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
                 } 
