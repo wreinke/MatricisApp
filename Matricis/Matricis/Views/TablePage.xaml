@@ -2,15 +2,44 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Matricis.ViewModels"
+             xmlns:syncfusion="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms" 
              x:Class="Matricis.Views.TablePage">
     <ContentPage.BindingContext>
         <vm:TableViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
+        <StackLayout Orientation="Horizontal">
+            <syncfusion:SfDataGrid x:Name="dataGrid"
+                               ItemsSource="{Binding CurrentEvaluation.Criterias}"
+                                   AutoGenerateColumns="False"
+                                   AllowSorting="True">
+                <syncfusion:SfDataGrid.Columns>
+                    <syncfusion:GridTextColumn HeaderText="Criterias" MappingName="Title" />
+                </syncfusion:SfDataGrid.Columns>
+            </syncfusion:SfDataGrid>
+            
+            <syncfusion:SfDataGrid x:Name="dataGrid1"
+                               ItemsSource="{Binding CurrentEvaluation.Options}"
+                                   AutoGenerateColumns="False"
+                                   AllowSorting="True">
+                <syncfusion:SfDataGrid.Columns>
+                    <syncfusion:GridTextColumn HeaderText="Options" MappingName="Title" />
+                </syncfusion:SfDataGrid.Columns>
+
+            </syncfusion:SfDataGrid>
+            <!--<syncfusion:SfDataGrid x:Name="dataGrid"
+                       ItemsSource="{Binding CurrentEvaluation.Criterias}">
+
+                <syncfusion:SfDataGrid.Columns>
+                    <syncfusion:GridTextColumn
+                                   DisplayBinding="{Binding Title}" />
+                </syncfusion:SfDataGrid.Columns>
+            </syncfusion:SfDataGrid>-->
+        </StackLayout>
         <!--<StackLayout>
             <Label Text="{Binding CurrentEvaluation.Title}" />
         </StackLayout>-->
-        <StackLayout Orientation="Horizontal">
+        <!--<StackLayout Orientation="Horizontal">
             <ListView x:Name="ItemsListView"
 				BackgroundColor="Aqua"
                 ItemsSource="{Binding CurrentEvaluation.Options}"
@@ -39,6 +68,7 @@
                 </ListView.ItemTemplate>
             </ListView>
             <ListView x:Name="ItemsListView1"
+                      HorizontalOptions=""
 				BackgroundColor="Aqua"
                 ItemsSource="{Binding CurrentEvaluation.Criterias}"
                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
@@ -61,6 +91,6 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackLayout>
+        </StackLayout>-->
     </ContentPage.Content>
 </ContentPage>
