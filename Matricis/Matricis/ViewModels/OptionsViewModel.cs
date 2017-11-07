@@ -1,10 +1,11 @@
 ﻿using Matricis.Helpers;
 using Matricis.Models;
 using Matricis.Views;
+using SQLite;
+using SQLiteNetExtensions.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -47,23 +48,37 @@ namespace Matricis.ViewModels
         }
 
         public Command LoadCriteriasCommand { get; set; }
-        public Command AddItemClickedCommand { get; set; }
+        public Command AddOptionClickedCommand { get; set; }
+        public Evaluation CurrentEvaluation { get; private set; }
 
         public OptionsViewModel() {
             Title = "Browse";
             LoadOptions();
             LoadCriteriasCommand = new Command(() => LoadOptions());
-            AddItemClickedCommand = new Command(async () => await AddItemClickedAsync());
+            AddOptionClickedCommand = new Command(async () => await AddOptionClickedAsync());
 
-            MessagingCenter.Subscribe<NewOptionViewModel>(this, "AddOptionM", (sender) => {
-                LoadOptions();
+            MessagingCenter.Subscribe<NewOptionViewModel,Option>(this, "AddOptionM", (sender,args) => {
+                Options.Add(args);
+                CurrentEvaluation.Options = new List<Option>(Options.ToList());
+                SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
+            });
+
+            MessagingCenter.Subscribe<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", (sender, args) => {
+                CurrentEvaluation = args;
+
+
+                if (CurrentEvaluation.Criterias != null) {
+                    Options = new ObservableRangeCollection<Option>(CurrentEvaluation.Options);
+                } else {
+                    Options = new ObservableRangeCollection<Option>();
+                }
             });
         }
 
-        private async Task AddItemClickedAsync() {
+        private async Task AddOptionClickedAsync() {
 
             var page = Application.Current.MainPage as TabbedPage;
-            await page.Children.First().Navigation.PushAsync(new NewOptionPage());
+            await page.Children[1].Navigation.PushAsync(new NewOptionPage());
         }
 
         private void LoadOptions() {
@@ -74,8 +89,7 @@ namespace Matricis.ViewModels
 
             try 
             {
-
-                Options = new ObservableRangeCollection<Option>(SqLiteConnection.Table<Option>().ToList());
+                Options = new ObservableRangeCollection<Option>(SqLiteConnection.GetWithChildren<Evaluation>(CurrentEvaluation.Id).Options.ToList());
 
             }
             catch (Exception ex) 
@@ -83,7 +97,7 @@ namespace Matricis.ViewModels
                 if (ex.Message == "no such table: Option")
                 {
                     SqLiteConnection.CreateTable<Option>();
-                    Options = new ObservableRangeCollection<Option>(SqLiteConnection.Table<Option>().ToList());
+                    Options = new ObservableRangeCollection<Option>(SqLiteConnection.GetWithChildren<Evaluation>(CurrentEvaluation.Id).Options.ToList());
                 }
             } 
             finally 

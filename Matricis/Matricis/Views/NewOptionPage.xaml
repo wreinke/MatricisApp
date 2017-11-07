@@ -11,10 +11,8 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
-            <Label Text="Text" FontSize="Medium" />
+            <Label Text="Title" FontSize="Medium" />
             <Entry Text="{Binding Option.Title}" FontSize="Small"/>
-            <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Option.Score}" FontSize="Small" Margin="0" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

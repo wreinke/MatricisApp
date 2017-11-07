@@ -26,12 +26,12 @@ namespace Matricis {
                     {
                         Title = "Evaluations",
                     },
+                    new NavigationPage(new OptionsPage()) {
+                        Title = "Options"
+                    },
                     new NavigationPage(new CriteriasPage())
                     {
                         Title = "Criterias",
-                    },
-                    new NavigationPage(new OptionsPage()) {
-                        Title = "Options"
                     },
                     new NavigationPage(new AboutPage())
                     {

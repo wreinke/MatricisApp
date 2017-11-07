@@ -96,7 +96,7 @@ namespace Matricis.ViewModels {
 
         private async Task AddItemClickedAsync() {
             var page = Application.Current.MainPage as TabbedPage;
-            await page.Children[1].Navigation.PushAsync(new NewCriteriaPage());
+            await page.Children[2].Navigation.PushAsync(new NewCriteriaPage());
         }
         }
     }

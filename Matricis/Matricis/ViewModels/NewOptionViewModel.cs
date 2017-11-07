@@ -22,19 +22,16 @@ namespace Matricis.ViewModels {
             if (Option != null) {
                 try {
                     SqLiteConnection.Insert(Option);
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     if (e.Message == "no such table: Option") {
                         SqLiteConnection.CreateTable<Option>();
                         SqLiteConnection.Insert(Option);
                     }
                 } finally {
-                        MessagingCenter.Send<NewOptionViewModel>(this, "AddOptionM");
-                        await Application.Current.MainPage.Navigation.PopToRootAsync();
+                    MessagingCenter.Send<NewOptionViewModel,Option>(this, "AddOptionM",Option);
+                    var page = Application.Current.MainPage as TabbedPage;
+                    await page.Children[1].Navigation.PopAsync();
                 }
-
-                var page = Application.Current.MainPage as TabbedPage;
-                await page.Children.First().Navigation.PopToRootAsync();
             }
         }
     }
