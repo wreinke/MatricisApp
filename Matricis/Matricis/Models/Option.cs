@@ -6,8 +6,10 @@ namespace Matricis.Models {
 
         public int Score { get; set; }
 
-        [ForeignKey(typeof(Evaluation))]
+        [ManyToOne]
+        public Evaluation Evaluation { get; set; }
 
-        public int EId { get; set; }
+        [ForeignKey(typeof(Evaluation))]
+        public int EvaluationId { get; set; }
     }
 }

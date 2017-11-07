@@ -1,6 +1,7 @@
 ﻿using Matricis.Helpers;
 using Matricis.Models;
 using Matricis.Views;
+using SQLiteNetExtensions.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,8 +80,7 @@ namespace Matricis.ViewModels {
             IsBusy = true;
 
             try {
-
-                Evaluations = new ObservableRangeCollection<Evaluation>(SqLiteConnection.Table<Evaluation>().ToList());
+                Evaluations = new ObservableRangeCollection<Evaluation>(SqLiteConnection.GetAllWithChildren<Evaluation>());
 
             } catch (Exception ex) {
                 if (ex.Message == "no such table: Evaluation") {

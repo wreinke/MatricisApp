@@ -3,6 +3,7 @@ using Matricis.Models;
 using Matricis.Views;
 using SQLiteNetExtensions.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -56,7 +57,14 @@ namespace Matricis.ViewModels {
         public CriteriasViewModel() {
 
             // For testing
-            
+            //var x = SqLiteConnection.DropTable<Criteria>();
+            //x = SqLiteConnection.DropTable<Option>();
+            //x = SqLiteConnection.DropTable<Evaluation>();
+
+            //SqLiteConnection.CreateTable<Criteria>();
+            //SqLiteConnection.CreateTable<Option>();
+            //SqLiteConnection.CreateTable<Evaluation>();
+
             Title = "Browse";
             AddItemClickedCommand = new Command(async () => await AddItemClickedAsync());
 
@@ -68,24 +76,14 @@ namespace Matricis.ViewModels {
                     Criterias = new ObservableRangeCollection<Criteria>();
                     Criterias.Add(args);
                 }
-                CurrentEvaluation.Criterias = Criterias.ToList();
-                SqLiteConnection.Insert(CurrentEvaluation);
-                SqLiteConnection.Insert(args);
+                CurrentEvaluation.Criterias = new List<Criteria>(Criterias.ToList());
                 SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
-                //SqLiteConnection.InsertWithChildren(CurrentEvaluation);
-
-                // var d = SqLiteConnection.Table<Evaluation>().ToList();
             });
 
             MessagingCenter.Subscribe<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", (sender, args) => {
                 CurrentEvaluation = args;
 
-                var x = SqLiteConnection.DropTable<Criteria>();
-                SqLiteConnection.CreateTable<Criteria>();
-                SqLiteConnection.Insert(new Criteria { Title = "asd", Descripion = "asdad", EvaluationId = CurrentEvaluation.Id });
-                SqLiteConnection.Insert(new Criteria { Title = "test", Descripion = "test1", EvaluationId = CurrentEvaluation.Id });
-
-
+              
                 if (CurrentEvaluation.Criterias != null) {
                     Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
                 } 

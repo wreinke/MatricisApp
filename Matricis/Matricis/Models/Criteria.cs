@@ -11,6 +11,9 @@ namespace Matricis.Models {
         [ManyToOne]      // Many to one relationship with Stock
         public Evaluation Evaluation { get; set; }
 
+        [ForeignKey(typeof(Evaluation))]
+        public int EvaluationID { get; set; }
+
         public Criteria() {
         }
     }
