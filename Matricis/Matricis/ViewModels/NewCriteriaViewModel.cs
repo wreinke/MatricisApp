@@ -1,4 +1,5 @@
 ﻿using Matricis.Models;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -16,24 +17,26 @@ namespace Matricis.ViewModels {
         }
 
         private async Task SaveClickedAsync() {
-            if (Criteria != null) {
-                try 
-                    {
+            //if (Criteria != null) {
+            //    try 
+            //        {
+            //        SqLiteConnection.Insert(Criteria);
+            //        }
+            //    catch (SQLite.SQLiteException e) 
+            //    {
+            //        if(e.Message == "no such table: Criteria")
+            //            {
+            //            SqLiteConnection.CreateTable<Criteria>();
+            //            SqLiteConnection.Insert(Criteria);
+            //        }
+            //    } 
+            //    finally {
+                    MessagingCenter.Send<NewCriteriaViewModel,Criteria>(this,"AddCriteriaM",Criteria);
                     SqLiteConnection.Insert(Criteria);
-                    }
-                catch (SQLite.SQLiteException e) 
-                {
-                    if(e.Message == "no such table: Criteria")
-                        {
-                        SqLiteConnection.CreateTable<Criteria>();
-                        SqLiteConnection.Insert(Criteria);
-                    }
-                } 
-                finally {
-                    MessagingCenter.Send<NewCriteriaViewModel>(this,"AddCriteriaM");
-                    await Application.Current.MainPage.Navigation.PopToRootAsync();
-                }
+                    var page = Application.Current.MainPage as TabbedPage;
+                    await page.Children[2].Navigation.PopAsync();
+                //}
             }
         }
-     }
+     
 }

@@ -2,17 +2,17 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Matricis.ViewModels"
-             x:Class="Matricis.Views.NewOptionPage">
+             x:Class="Matricis.Views.NewEvaluationPage">
     <ContentPage.BindingContext>
-        <vm:NewOptionViewModel/>
+        <vm:NewEvaluationViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Save" Command="{Binding SaveClickedCommand}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Spacing="20" Padding="15">
-            <Label Text="Title" FontSize="Medium" />
-            <Entry Text="{Binding Option.Title}" FontSize="Small"/>
+        <StackLayout>
+            <Label Text="Text" FontSize="Medium" />
+            <Entry Text="{Binding Evaluation.Title}" FontSize="Small"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

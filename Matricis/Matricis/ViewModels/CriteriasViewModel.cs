@@ -1,7 +1,9 @@
 ﻿using Matricis.Helpers;
 using Matricis.Models;
 using Matricis.Views;
+using SQLiteNetExtensions.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -12,6 +14,8 @@ namespace Matricis.ViewModels {
     public class CriteriasViewModel : BaseViewModel {
 
         Criteria selectedItem;
+
+        public Evaluation CurrentEvaluation { get; set; }
 
         private ObservableRangeCollection<Criteria> criterias;
 
@@ -27,12 +31,16 @@ namespace Matricis.ViewModels {
             }
         }
 
-        public Criteria SelectedItem {
-            get {
+        public Criteria SelectedItem
+        {
+            get
+            {
 
                 return this.selectedItem;
 
-            } set {
+            }
+            set
+            {
 
                 this.selectedItem = value;
                 Application.Current.MainPage.Navigation.PushAsync(new CriteriaDetailPage());
@@ -47,33 +55,49 @@ namespace Matricis.ViewModels {
         public Command AddItemClickedCommand { get; set; }
 
         public CriteriasViewModel() {
+
+            // For testing
+            //var x = SqLiteConnection.DropTable<Criteria>();
+            //x = SqLiteConnection.DropTable<Option>();
+            //x = SqLiteConnection.DropTable<Evaluation>();
+
+            //SqLiteConnection.CreateTable<Criteria>();
+            //SqLiteConnection.CreateTable<Option>();
+            //SqLiteConnection.CreateTable<Evaluation>();
+
             Title = "Browse";
-            Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.Table<Criteria>().ToList());
-            LoadCriteriasCommand = new Command(() => LoadCriterias());
             AddItemClickedCommand = new Command(async () => await AddItemClickedAsync());
 
-            MessagingCenter.Subscribe<NewCriteriaViewModel>(this, "AddCriteriaM", (sender) => {
-                LoadCriterias();
+            MessagingCenter.Subscribe<NewCriteriaViewModel, Criteria>(this, "AddCriteriaM", (sender,args) => {
+
+                if(Criterias != null) {
+                    Criterias.Add(args);
+                } else {
+                    Criterias = new ObservableRangeCollection<Criteria>();
+                    Criterias.Add(args);
+                }
+                CurrentEvaluation.Criterias = new List<Criteria>(Criterias.ToList());
+                SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
             });
+
+            MessagingCenter.Subscribe<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", (sender, args) => {
+                CurrentEvaluation = args;
+
+              
+                if (CurrentEvaluation.Criterias != null) {
+                    Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
+                } 
+                else {
+                    Criterias = new ObservableRangeCollection<Criteria>();
+                }
+            });
+
         }
 
         private async Task AddItemClickedAsync() {
-
-            await Application.Current.MainPage.Navigation.PushAsync(new NewCriteriaPage());
+            var page = Application.Current.MainPage as TabbedPage;
+            await page.Children[2].Navigation.PushAsync(new NewCriteriaPage());
         }
-
-        private void LoadCriterias() {
-            if (IsBusy)
-                return;
-
-            IsBusy = true;
-
-            try {
-                Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.Table<Criteria>().ToList());
-            } catch (Exception ex) {
-            } finally {
-                IsBusy = false;
-            }
         }
     }
-}
+

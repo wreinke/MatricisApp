@@ -15,25 +15,27 @@ namespace Matricis {
         public App() {
             InitializeComponent();
 
-            MainPage = new NavigationPage(SetTabPage());
+            MainPage = SetTabPage();
         }
 
         public static TabbedPage SetTabPage() {
             return new TabbedPage {
                 Children =
                 {
-                    new NavigationPage(new CriteriasPage())
+                    new NavigationPage(new EvaluationsPage())
                     {
-                        Title = "Browse",
-                        Icon = Device.OnPlatform("tab_feed.png",null,null)
+                        Title = "Evaluations",
                     },
                     new NavigationPage(new OptionsPage()) {
                         Title = "Options"
                     },
+                    new NavigationPage(new CriteriasPage())
+                    {
+                        Title = "Criterias",
+                    },
                     new NavigationPage(new AboutPage())
                     {
                         Title = "About",
-                        Icon = Device.OnPlatform("tab_about.png",null,null)
                     },
                 }
             };

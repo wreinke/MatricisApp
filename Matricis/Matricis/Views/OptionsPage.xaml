@@ -7,7 +7,7 @@
         <vm:OptionsViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add Item" Command="{Binding AddItemClickedCommand}" />
+        <ToolbarItem Text="Add Item" Command="{Binding AddOptionClickedCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>

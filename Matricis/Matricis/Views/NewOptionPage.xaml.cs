@@ -12,11 +12,5 @@ namespace Matricis.Views {
 		{
 			InitializeComponent ();
 		}
-
-        public void Save_Clicked(object sender, EventArgs e) {
-            var x = this.BindingContext as NewOptionViewModel;
-            x.SaveClickedCommand.Execute(null);
-        }
-
     }
 }
