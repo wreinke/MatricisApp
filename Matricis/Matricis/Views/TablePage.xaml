@@ -10,15 +10,19 @@
     <ContentPage.Content>
         <StackLayout Orientation="Horizontal">
             <syncfusion:SfDataGrid x:Name="dataGrid"
-                               ItemsSource="{Binding CurrentEvaluation.Criterias}"
                                    AutoGenerateColumns="False"
-                                   AllowSorting="True">
+                                   AllowSorting="True"
+                                   ItemsSource="{Binding CriteriaOptions}">
                 <syncfusion:SfDataGrid.Columns>
-                    <syncfusion:GridTextColumn HeaderText="Criterias" MappingName="Title" />
+                    <syncfusion:GridTextColumn HeaderText="OptionId" MappingName="OptionId" />
+                    <syncfusion:GridTextColumn HeaderText="CriteriaId" MappingName="CriteriaId" />
+                    <syncfusion:GridTextColumn HeaderText="Score" MappingName="Score" />
                 </syncfusion:SfDataGrid.Columns>
             </syncfusion:SfDataGrid>
             
-            <syncfusion:SfDataGrid x:Name="dataGrid1"
+            
+            
+            <!--<syncfusion:SfDataGrid x:Name="dataGrid1"
                                ItemsSource="{Binding CurrentEvaluation.Options}"
                                    AutoGenerateColumns="False"
                                    AllowSorting="True">
@@ -26,7 +30,7 @@
                     <syncfusion:GridTextColumn HeaderText="Options" MappingName="Title" />
                 </syncfusion:SfDataGrid.Columns>
 
-            </syncfusion:SfDataGrid>
+            </syncfusion:SfDataGrid>-->
             <!--<syncfusion:SfDataGrid x:Name="dataGrid"
                        ItemsSource="{Binding CurrentEvaluation.Criterias}">
 

@@ -1,21 +1,35 @@
-﻿using Matricis.Models;
+﻿using Matricis.Helpers;
+using Matricis.Models;
 using Xamarin.Forms;
 
 namespace Matricis.ViewModels {
 
-    public class OptionDetailViewModel : BaseViewModel
-    {
-        private Option criteria;
+    public class OptionDetailViewModel : BaseViewModel {
+        private Option option;
 
         public Option Option
         {
             get
             {
-                return criteria;
+                return option;
             }
             set
             {
-                SetProperty(ref criteria, value);
+                SetProperty(ref option, value);
+            }
+        }
+
+        private ObservableRangeCollection<Criteria> criterias;
+
+        public ObservableRangeCollection<Criteria> Criterias
+        {
+            get
+            {
+                return criterias;
+            }
+            set
+            {
+                SetProperty(ref criterias, value);
             }
         }
 
@@ -25,6 +39,11 @@ namespace Matricis.ViewModels {
             };
             MessagingCenter.Subscribe<OptionsViewModel, Option>(this, "OptionSelectedM", (sender, args) => {
                 Option = args;
+                if(Option.Evaluation.Criterias != null) {
+                    Criterias = new ObservableRangeCollection<Criteria>(Option.Evaluation.Criterias);
+                } else {
+                    Criterias = new ObservableRangeCollection<Criteria>();
+                }
             });
         }
     }

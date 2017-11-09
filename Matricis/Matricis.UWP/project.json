@@ -4,6 +4,7 @@
     "Plugin.SQLite": "1.0.4",
     "SQLiteNetExtensions": "2.0.0-alpha2",
     "Syncfusion.Xamarin.SfDataGrid": "15.3.0.33",
+    "Syncfusion.Xamarin.SfListView": "15.3.0.33",
     "Xamarin.Forms": "2.4.0.38779"
   },
   "frameworks": {

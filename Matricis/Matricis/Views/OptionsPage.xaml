@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:dataSource="clr-namespace:Syncfusion.DataSource;assembly=Syncfusion.DataSource.Portable"
              xmlns:vm="clr-namespace:Matricis.ViewModels"
              x:Class="Matricis.Views.OptionsPage">
     <ContentPage.BindingContext>
@@ -11,7 +13,100 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <ListView x:Name="ItemsListView"
+
+            <!--<syncfusion:SfListView x:Name="listView"
+                   IsStickyGroupHeader="True"
+                   SelectionMode="None"
+                   SelectedItem="{Binding SelectedItem}"
+                   ItemsSource="{Binding Options}"
+                   AllowGroupExpandCollapse="True"
+                   ItemSize="200">-->
+
+                <!--<syncfusion:SfListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout>
+                                    <Label Text="{Binding Title}" BackgroundColor="Silver" VerticalOptions="FillAndExpand" FontSize="Large"/>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </syncfusion:SfListView.GroupHeaderTemplate>-->
+
+                <!--<syncfusion:SfListView.ItemTemplate>
+                    <DataTemplate>-->
+                        <syncfusion:SfListView Orientation="Vertical" ItemsSource="{Binding Criterias}" AllowGroupExpandCollapse="True" >
+
+                            <syncfusion:SfListView.DataSource >
+                                <dataSource:DataSource>
+                                    <dataSource:DataSource.GroupDescriptors>
+                                        <dataSource:GroupDescriptor PropertyName="Id"/>
+                                    </dataSource:DataSource.GroupDescriptors>
+                                </dataSource:DataSource>
+                            </syncfusion:SfListView.DataSource>
+
+                            <syncfusion:SfListView.GroupHeaderTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <ViewCell.View>
+                                            <StackLayout>
+                                                <Label Text="{Binding Id}" BackgroundColor="Aqua" FontSize="Medium"/>
+                                            </StackLayout>
+                                        </ViewCell.View>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </syncfusion:SfListView.GroupHeaderTemplate>
+
+                            <syncfusion:SfListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout>
+                                        <Label Text="{Binding Id}"/>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </syncfusion:SfListView.ItemTemplate>
+                        </syncfusion:SfListView>
+                    <!--</DataTemplate>
+                </syncfusion:SfListView.ItemTemplate>-->
+            <!--</syncfusion:SfListView>-->
+
+            <!--<syncfusion:SfListView ItemsSource="{Binding Options}">
+                <syncfusion:SfListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <Label Grid.Row="1" Text="{Binding Title}" TextColor="Teal" FontSize="15" Margin="10,10,10,0"/>
+                            <Label Text="{Binding Id}" FontAttributes="Bold" TextColor="Teal" FontSize="21" Margin="10,10,10,0"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </syncfusion:SfListView.ItemTemplate>
+            </syncfusion:SfListView>-->
+
+                <!--<syncfusion:SfListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding Title}" TextColor="Teal" FontSize="15" Margin="10,10,10,0"/>
+                                <Label Text="{Binding Id}" FontAttributes="Bold" TextColor="Teal" FontSize="21" Margin="10,10,10,0"/>
+                            </StackLayout>
+                            <syncfusion:SfListView ItemsSource="{Binding Criterias}">
+                                <syncfusion:SfListView.LayoutManager>
+                                    <syncfusion:GridLayout SpanCount="2" />
+                                </syncfusion:SfListView.LayoutManager>
+                                <syncfusion:SfListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="Title" TextColor="Teal" FontSize="15"/>
+                                            --><!--<Label Text="{Binding Id}" FontAttributes="Bold" TextColor="Teal" FontSize="21" Margin="10,10,10,0"/>--><!--
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </syncfusion:SfListView.ItemTemplate>
+                            </syncfusion:SfListView>
+                        </StackLayout>
+                    </DataTemplate>
+                </syncfusion:SfListView.ItemTemplate>
+            </syncfusion:SfListView>-->
+
+            <!--<ListView x:Name="ItemsListView"
 				BackgroundColor="Aqua"
                 ItemsSource="{Binding Options}"
                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
@@ -37,7 +132,7 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </ListView>
+            </ListView>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
