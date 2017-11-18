@@ -87,6 +87,9 @@ namespace Matricis.ViewModels
                     Options = new ObservableRangeCollection<Option>();
                     Criterias = new ObservableRangeCollection<Criteria>();
                 }
+                foreach (Option o in Options) {
+                    o.Criterias = Criterias.ToList();
+                }
             });
         }
 
