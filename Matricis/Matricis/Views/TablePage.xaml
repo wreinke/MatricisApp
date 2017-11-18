@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Matricis.ViewModels"
+             xmlns:syncfusion="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms" 
+             x:Class="Matricis.Views.TablePage">
+    <ContentPage.BindingContext>
+        <vm:TableViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Orientation="Horizontal">
+            <syncfusion:SfDataGrid x:Name="dataGrid"
+                                   AutoGenerateColumns="False"
+                                   AllowSorting="True"
+                                   ItemsSource="{Binding CriteriaOptions}">
+                <syncfusion:SfDataGrid.Columns>
+                    <syncfusion:GridTextColumn HeaderText="OptionId" MappingName="OptionId" />
+                    <syncfusion:GridTextColumn HeaderText="CriteriaId" MappingName="CriteriaId" />
+                    <syncfusion:GridTextColumn HeaderText="Score" MappingName="Score" />
+                </syncfusion:SfDataGrid.Columns>
+            </syncfusion:SfDataGrid>
+            
+            
+            
+            <!--<syncfusion:SfDataGrid x:Name="dataGrid1"
+                               ItemsSource="{Binding CurrentEvaluation.Options}"
+                                   AutoGenerateColumns="False"
+                                   AllowSorting="True">
+                <syncfusion:SfDataGrid.Columns>
+                    <syncfusion:GridTextColumn HeaderText="Options" MappingName="Title" />
+                </syncfusion:SfDataGrid.Columns>
+
+            </syncfusion:SfDataGrid>-->
+            <!--<syncfusion:SfDataGrid x:Name="dataGrid"
+                       ItemsSource="{Binding CurrentEvaluation.Criterias}">
+
+                <syncfusion:SfDataGrid.Columns>
+                    <syncfusion:GridTextColumn
+                                   DisplayBinding="{Binding Title}" />
+                </syncfusion:SfDataGrid.Columns>
+            </syncfusion:SfDataGrid>-->
+        </StackLayout>
+        <!--<StackLayout>
+            <Label Text="{Binding CurrentEvaluation.Title}" />
+        </StackLayout>-->
+        <!--<StackLayout Orientation="Horizontal">
+            <ListView x:Name="ItemsListView"
+				BackgroundColor="Aqua"
+                ItemsSource="{Binding CurrentEvaluation.Options}"
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                RefreshCommand="{Binding LoadCriteriasCommand}"
+                IsPullToRefreshEnabled="true"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                CachingStrategy="RecycleElement">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Title}"
+                       LineBreakMode="NoWrap"
+                       Style="{DynamicResource ListItemTextStyle}"
+                       FontSize="16"/>
+                                <Label Text="{Binding Score}"
+                       LineBreakMode="NoWrap"
+                       Style="{DynamicResource ListItemDetailTextStyle}"
+                       FontSize="13"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView x:Name="ItemsListView1"
+                      HorizontalOptions=""
+				BackgroundColor="Aqua"
+                ItemsSource="{Binding CurrentEvaluation.Criterias}"
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                RefreshCommand="{Binding LoadCriteriasCommand}"
+                IsPullToRefreshEnabled="true"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                CachingStrategy="RecycleElement">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Title}"
+                       LineBreakMode="NoWrap"
+                       Style="{DynamicResource ListItemTextStyle}"
+                       FontSize="16"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>-->
+    </ContentPage.Content>
+</ContentPage>

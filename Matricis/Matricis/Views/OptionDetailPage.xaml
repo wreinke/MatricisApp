@@ -1,12 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              xmlns:vm="clr-namespace:Matricis.ViewModels"
              x:Class="Matricis.Views.OptionDetailPage">
+    <ContentPage.BindingContext>
+        <vm:OptionDetailViewModel/>
+    </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding Option.Score}" />
-            <Label Text="{Binding Option.Id}" />
+            <Label Text="{Binding Option.Title}"></Label>
+            <syncfusion:SfListView ItemsSource="{Binding Criterias}">
+                <syncfusion:SfListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Grid.Row="1" Text="{Binding Title}" TextColor="Teal" FontSize="15" Margin="10,10,10,0"/>
+                            <Label Text="{Binding Id}" FontAttributes="Bold" TextColor="Teal" FontSize="21" Margin="10,10,10,0"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </syncfusion:SfListView.ItemTemplate>
+            </syncfusion:SfListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

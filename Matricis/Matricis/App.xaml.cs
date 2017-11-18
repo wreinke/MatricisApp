@@ -33,6 +33,10 @@ namespace Matricis {
                     {
                         Title = "Criterias",
                     },
+                    new NavigationPage(new TablePage())
+                    {
+                        Title = "Table",
+                    },
                     new NavigationPage(new AboutPage())
                     {
                         Title = "About",

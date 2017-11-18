@@ -29,6 +29,20 @@ namespace Matricis.ViewModels
             }
         }
 
+        private ObservableRangeCollection<Criteria> criterias;
+
+        public ObservableRangeCollection<Criteria> Criterias
+        {
+            get
+            {
+                return criterias;
+            }
+            set
+            {
+                SetProperty(ref criterias, value);
+            }
+        }
+
         public Option SelectedItem
         {
             get
@@ -66,11 +80,15 @@ namespace Matricis.ViewModels
             MessagingCenter.Subscribe<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", (sender, args) => {
                 CurrentEvaluation = args;
 
-
                 if (CurrentEvaluation.Criterias != null) {
                     Options = new ObservableRangeCollection<Option>(CurrentEvaluation.Options);
+                    Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
                 } else {
                     Options = new ObservableRangeCollection<Option>();
+                    Criterias = new ObservableRangeCollection<Criteria>();
+                }
+                foreach (Option o in Options) {
+                    o.Criterias = Criterias.ToList();
                 }
             });
         }

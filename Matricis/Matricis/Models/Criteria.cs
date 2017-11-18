@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using SQLiteNetExtensions.Attributes;
 using System;
+using System.Collections.Generic;
 
 namespace Matricis.Models {
     public class Criteria : BaseModel {
@@ -13,6 +14,9 @@ namespace Matricis.Models {
 
         [ForeignKey(typeof(Evaluation))]
         public int EvaluationID { get; set; }
+
+        [ManyToMany(typeof(CriteriaOption))]
+        public List<Option> Subjects { get; set; }
 
         public Criteria() {
         }

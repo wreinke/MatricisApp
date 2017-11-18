@@ -15,6 +15,7 @@ namespace Matricis.Views
 		public OptionsPage ()
 		{
 			InitializeComponent ();
-		}
+           // listView.DataSource.GroupDescriptors.Add(new Syncfusion.DataSource.GroupDescriptor("Title"));
+        }
 	}
 }

@@ -43,7 +43,8 @@ namespace Matricis.ViewModels {
             {
 
                 this.selectedItem = value;
-                Application.Current.MainPage.Navigation.PushAsync(new CriteriaDetailPage());
+                var page = Application.Current.MainPage as TabbedPage;
+                page.Children[2].Navigation.PushAsync(new OptionDetailPage());
                 MessagingCenter.Send<CriteriasViewModel, Criteria>(this, "CriteriaSelectedM", SelectedItem);
 
             }
