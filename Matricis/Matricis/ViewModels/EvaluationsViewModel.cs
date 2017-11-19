@@ -1,6 +1,7 @@
 ﻿using Matricis.Helpers;
 using Matricis.Models;
 using Matricis.Views;
+using SQLite;
 using SQLiteNetExtensions.Extensions;
 using System;
 using System.Collections.Generic;
@@ -41,22 +42,24 @@ namespace Matricis.ViewModels {
                 this.selectedItem = value;
 
                 if(selectedItem != null) {
-                    selectedItem.Criterias = SqLiteConnection.GetAllWithChildren<Criteria>();
-                    MessagingCenter.Send<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", selectedItem);
+                    try {
+                        selectedItem.Criterias = SqLiteConnection.GetAllWithChildren<Criteria>().Where(c => c.EvaluationID == selectedItem.Id).ToList();
+                        selectedItem.Options = SqLiteConnection.GetAllWithChildren<Option>().Where(o => o.EvaluationId == selectedItem.Id).ToList();
+                        MessagingCenter.Send<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", selectedItem);
+                    } catch (Exception e) {
+                        throw new NotImplementedException();
+                    }
                 }
-
-                //Application.Current.MainPage.Navigation.PushAsync(new OptionDetailPage());
-                //MessagingCenter.Send<OptionsViewModel, Option>(this, "OptionSelectedM", SelectedItem);
-
             }
         }
 
-        public Command LoadEvaluationsCommand { get; set; }
+        //public Command LoadEvaluationsCommand { get; set; }
         public Command AddItemClickedCommand { get; set; }
 
         public EvaluationsViewModel() {
             LoadEvaluations();
-            LoadEvaluationsCommand = new Command(() => LoadEvaluations());
+
+            //LoadEvaluationsCommand = new Command(() => LoadEvaluations());
             AddItemClickedCommand = new Command(async () => await AddItemClickedAsync());
 
             MessagingCenter.Subscribe<NewEvaluationViewModel>(this, "AddEvaluationM", (sender) => {
@@ -77,8 +80,6 @@ namespace Matricis.ViewModels {
             //x = SqLiteConnection.DropTable<Option>();
             //x = SqLiteConnection.DropTable<CriteriaOption>();
             //x = SqLiteConnection.DropTable<Criteria>();
-
-
 
             if (IsBusy)
                 return;

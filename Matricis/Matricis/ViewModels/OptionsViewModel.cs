@@ -84,7 +84,7 @@ namespace Matricis.ViewModels
                 
                 // Update CurrentEvaluation object
                 CurrentEvaluation.Options = new List<Option>(Options.ToList());
-                SqLiteConnection.UpdateWithChildren(args);
+             //   SqLiteConnection.UpdateWithChildren(args);
                 SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
             });
 
@@ -97,10 +97,11 @@ namespace Matricis.ViewModels
                         _option.Criterias = new ObservableRangeCollection<Criteria>().ToList();
                         _option.Criterias.Add(args);
                     }
-
                 //CurrentEvaluation.Criterias = new List<Criteria>(Criterias.ToList());
                 SqLiteConnection.UpdateWithChildren(args);
                 SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
+                Options = new ObservableRangeCollection<Option>(CurrentEvaluation.Options);
+        //        Options = new ObservableRangeCollection<Option>(SqLiteConnection.GetAllWithChildren<Option>().Where(o => o.EvaluationId == CurrentEvaluation.Id));
             });
 
             MessagingCenter.Subscribe<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", (sender, args) => {

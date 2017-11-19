@@ -4,7 +4,8 @@
              xmlns:vm="clr-namespace:Matricis.ViewModels"
              xmlns:sync="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              xmlns:data="clr-namespace:Syncfusion.DataSource;assembly=Syncfusion.DataSource.Portable"
-             x:Class="Matricis.Views.CriteriasPage">
+             x:Class="Matricis.Views.CriteriasPage"
+             x:Name="CriteriasPage">
     <ContentPage.BindingContext>
         <vm:CriteriasViewModel/>
     </ContentPage.BindingContext>
@@ -30,8 +31,7 @@
                 </sync:SfListView.DataSource>
                 <sync:SfListView.ItemTemplate>
                     <DataTemplate>
-                        <sync:SfListView Orientation="Vertical" ItemsSource="{Binding Options}" AllowGroupExpandCollapse="True" >
-
+                        <sync:SfListView Orientation="Vertical" ItemsSource="{Binding Path=BindingContext.Options, Source={x:Reference Name=CriteriasPage}}" AllowGroupExpandCollapse="True">
                             <sync:SfListView.ItemTemplate>
                                 <DataTemplate>
                                     <StackLayout>

@@ -17,7 +17,7 @@ namespace Matricis.Models {
 
         [ManyToMany(typeof(CriteriaOption))]
         public List<Option> Options { get; set; }
-
+        
         public Criteria() {
         }
     }

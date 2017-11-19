@@ -18,6 +18,7 @@ namespace Matricis.ViewModels {
         public Evaluation CurrentEvaluation { get; set; }
 
         private ObservableRangeCollection<Criteria> criterias;
+        private ObservableCollection<Option> options;
 
         public ObservableRangeCollection<Criteria> Criterias
         {
@@ -50,12 +51,28 @@ namespace Matricis.ViewModels {
             }
         }
 
-
+        public ObservableCollection<Option> Options
+        {
+            get
+            {
+                return options;
+            }
+            set
+            {
+                SetProperty(ref options, value);
+            }
+        }
 
         public Command LoadCriteriasCommand { get; set; }
         public Command AddItemClickedCommand { get; set; }
 
         public CriteriasViewModel() {
+
+            //Options = new ObservableCollection<Option>() {
+            //    new Option() {
+            //        Title="123"
+            //    }
+            //};
 
             // For testing
             //var x = SqLiteConnection.DropTable<Criteria>();
@@ -69,7 +86,7 @@ namespace Matricis.ViewModels {
             Title = "Browse";
             AddItemClickedCommand = new Command(async () => await AddItemClickedAsync());
 
-            MessagingCenter.Subscribe<NewCriteriaViewModel, Option>(this, "AddOptionM", (sender, args) => {
+            MessagingCenter.Subscribe<NewOptionViewModel, Option>(this, "AddOptionM", (sender, args) => {
 
                 foreach (var _criteria in CurrentEvaluation.Criterias)
                     if (_criteria.Options != null) {
@@ -80,6 +97,8 @@ namespace Matricis.ViewModels {
                     }
                 CurrentEvaluation.Criterias = new List<Criteria>(Criterias.ToList());
                 SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
+                Options = new ObservableCollection<Option>(CurrentEvaluation.Options);
+                //Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.GetAllWithChildren<Criteria>().Where(c => c.EvaluationID == CurrentEvaluation.Id));
             });
 
             MessagingCenter.Subscribe<NewCriteriaViewModel, Criteria>(this, "AddCriteriaM", (sender, args) => {
@@ -105,7 +124,7 @@ namespace Matricis.ViewModels {
                 //}
                 //);
 
-                SqLiteConnection.UpdateWithChildren(args);
+                // SqLiteConnection.UpdateWithChildren(args);
                 SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
             });
 
@@ -117,6 +136,12 @@ namespace Matricis.ViewModels {
                     Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
                 } else {
                     Criterias = new ObservableRangeCollection<Criteria>();
+                }
+
+                if (CurrentEvaluation.Options != null) {
+                    Options = new ObservableRangeCollection<Option>(CurrentEvaluation.Options);
+                } else {
+                    Options = new ObservableRangeCollection<Option>();
                 }
             });
 

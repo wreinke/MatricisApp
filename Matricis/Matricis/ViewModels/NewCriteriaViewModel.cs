@@ -31,8 +31,8 @@ namespace Matricis.ViewModels {
                     }
 
                 } finally {
-                    MessagingCenter.Send<NewCriteriaViewModel, Criteria>(this, "AddCriteriaM", Criteria);
                     SqLiteConnection.Insert(Criteria);
+                    MessagingCenter.Send<NewCriteriaViewModel, Criteria>(this, "AddCriteriaM", Criteria);
                     var page = Application.Current.MainPage as TabbedPage;
                     await page.Children[2].Navigation.PopAsync();
                 }
