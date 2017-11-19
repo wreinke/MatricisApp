@@ -68,12 +68,6 @@ namespace Matricis.ViewModels {
 
         public CriteriasViewModel() {
 
-            //Options = new ObservableCollection<Option>() {
-            //    new Option() {
-            //        Title="123"
-            //    }
-            //};
-
             // For testing
             //var x = SqLiteConnection.DropTable<Criteria>();
             //x = SqLiteConnection.DropTable<Option>();
