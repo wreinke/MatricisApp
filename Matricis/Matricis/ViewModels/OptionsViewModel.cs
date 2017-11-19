@@ -16,7 +16,8 @@ namespace Matricis.ViewModels
         private Option selectedItem;
         private ObservableRangeCollection<Option> options;
 
-        public ObservableRangeCollection<Option> Options {
+        public ObservableRangeCollection<Option> Options
+        {
 
             get
             {
@@ -29,19 +30,19 @@ namespace Matricis.ViewModels
             }
         }
 
-        private ObservableRangeCollection<Criteria> criterias;
+        //private ObservableRangeCollection<Criteria> criterias;
 
-        public ObservableRangeCollection<Criteria> Criterias
-        {
-            get
-            {
-                return criterias;
-            }
-            set
-            {
-                SetProperty(ref criterias, value);
-            }
-        }
+        //public ObservableRangeCollection<Criteria> Criterias
+        //{
+        //    get
+        //    {
+        //        return criterias;
+        //    }
+        //    set
+        //    {
+        //        SetProperty(ref criterias, value);
+        //    }
+        //}
 
         public Option SelectedItem
         {
@@ -61,19 +62,44 @@ namespace Matricis.ViewModels
             }
         }
 
-        public Command LoadCriteriasCommand { get; set; }
+        //public Command LoadCriteriasCommand { get; set; }
         public Command AddOptionClickedCommand { get; set; }
         public Evaluation CurrentEvaluation { get; private set; }
 
         public OptionsViewModel() {
             Title = "Browse";
             LoadOptions();
-            LoadCriteriasCommand = new Command(() => LoadOptions());
+            //LoadCriteriasCommand = new Command(() => LoadOptions());
             AddOptionClickedCommand = new Command(async () => await AddOptionClickedAsync());
 
             MessagingCenter.Subscribe<NewOptionViewModel,Option>(this, "AddOptionM", (sender,args) => {
+
+                //Add Criterias to new Option
+                if (CurrentEvaluation.Criterias != null) {
+                    args.Criterias = CurrentEvaluation.Criterias;
+                }
+
+                //Add new Option to Optionlist
                 Options.Add(args);
+                
+                // Update CurrentEvaluation object
                 CurrentEvaluation.Options = new List<Option>(Options.ToList());
+                SqLiteConnection.UpdateWithChildren(args);
+                SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
+            });
+
+            MessagingCenter.Subscribe<NewCriteriaViewModel, Criteria>(this, "AddCriteriaM", (sender, args) => {
+                
+                foreach (var _option in CurrentEvaluation.Options)
+                    if (_option.Criterias != null) {
+                        _option.Criterias.Add(args);
+                    } else {
+                        _option.Criterias = new ObservableRangeCollection<Criteria>().ToList();
+                        _option.Criterias.Add(args);
+                    }
+
+                //CurrentEvaluation.Criterias = new List<Criteria>(Criterias.ToList());
+                SqLiteConnection.UpdateWithChildren(args);
                 SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
             });
 
@@ -82,13 +108,13 @@ namespace Matricis.ViewModels
 
                 if (CurrentEvaluation.Criterias != null) {
                     Options = new ObservableRangeCollection<Option>(CurrentEvaluation.Options);
-                    Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
+                    //Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
                 } else {
                     Options = new ObservableRangeCollection<Option>();
-                    Criterias = new ObservableRangeCollection<Criteria>();
+                    //Criterias = new ObservableRangeCollection<Criteria>();
                 }
                 foreach (Option o in Options) {
-                    o.Criterias = Criterias.ToList();
+                    //o.Criterias = Criterias.ToList();
                 }
             });
         }

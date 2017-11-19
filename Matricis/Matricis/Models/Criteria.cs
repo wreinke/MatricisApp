@@ -16,7 +16,7 @@ namespace Matricis.Models {
         public int EvaluationID { get; set; }
 
         [ManyToMany(typeof(CriteriaOption))]
-        public List<Option> Subjects { get; set; }
+        public List<Option> Options { get; set; }
 
         public Criteria() {
         }

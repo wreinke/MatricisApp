@@ -41,6 +41,7 @@ namespace Matricis.ViewModels {
                 this.selectedItem = value;
 
                 if(selectedItem != null) {
+                    selectedItem.Criterias = SqLiteConnection.GetAllWithChildren<Criteria>();
                     MessagingCenter.Send<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", selectedItem);
                 }
 
@@ -71,8 +72,13 @@ namespace Matricis.ViewModels {
 
         private void LoadEvaluations() {
 
-            // For testing
+            //            For testing
             //var x = SqLiteConnection.DropTable<Evaluation>();
+            //x = SqLiteConnection.DropTable<Option>();
+            //x = SqLiteConnection.DropTable<CriteriaOption>();
+            //x = SqLiteConnection.DropTable<Criteria>();
+
+
 
             if (IsBusy)
                 return;
@@ -83,8 +89,11 @@ namespace Matricis.ViewModels {
                 Evaluations = new ObservableRangeCollection<Evaluation>(SqLiteConnection.GetAllWithChildren<Evaluation>());
 
             } catch (Exception ex) {
-                if (ex.Message == "no such table: Evaluation") {
+                if (ex.Message == "no such table: Evaluation"  || ex.Message == "no such table: Criteria" || ex.Message == "no such table: Option") {
+                    SqLiteConnection.CreateTable<Criteria>();
+                    SqLiteConnection.CreateTable<Option>();
                     SqLiteConnection.CreateTable<Evaluation>();
+                    SqLiteConnection.CreateTable<CriteriaOption>();
                     Evaluations = new ObservableRangeCollection<Evaluation>(SqLiteConnection.Table<Evaluation>().ToList());
                 }
             } finally {
