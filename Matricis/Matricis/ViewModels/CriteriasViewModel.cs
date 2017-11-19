@@ -18,6 +18,7 @@ namespace Matricis.ViewModels {
         public Evaluation CurrentEvaluation { get; set; }
 
         private ObservableRangeCollection<Criteria> criterias;
+        private ObservableCollection<Option> options;
 
         public ObservableRangeCollection<Criteria> Criterias
         {
@@ -50,7 +51,17 @@ namespace Matricis.ViewModels {
             }
         }
 
-
+        public ObservableCollection<Option> Options
+        {
+            get
+            {
+                return options;
+            }
+            set
+            {
+                SetProperty(ref options, value);
+            }
+        }
 
         public Command LoadCriteriasCommand { get; set; }
         public Command AddItemClickedCommand { get; set; }
@@ -69,27 +80,62 @@ namespace Matricis.ViewModels {
             Title = "Browse";
             AddItemClickedCommand = new Command(async () => await AddItemClickedAsync());
 
-            MessagingCenter.Subscribe<NewCriteriaViewModel, Criteria>(this, "AddCriteriaM", (sender,args) => {
+            MessagingCenter.Subscribe<NewOptionViewModel, Option>(this, "AddOptionM", (sender, args) => {
 
-                if(Criterias != null) {
+                foreach (var _criteria in CurrentEvaluation.Criterias)
+                    if (_criteria.Options != null) {
+                        _criteria.Options.Add(args);
+                    } else {
+                        _criteria.Options = new ObservableRangeCollection<Option>().ToList();
+                        _criteria.Options.Add(args);
+                    }
+                CurrentEvaluation.Criterias = new List<Criteria>(Criterias.ToList());
+                SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
+                Options = new ObservableCollection<Option>(CurrentEvaluation.Options);
+                //Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.GetAllWithChildren<Criteria>().Where(c => c.EvaluationID == CurrentEvaluation.Id));
+            });
+
+            MessagingCenter.Subscribe<NewCriteriaViewModel, Criteria>(this, "AddCriteriaM", (sender, args) => {
+
+                //Add Options to new Criteria
+                args.Options = CurrentEvaluation.Options;
+
+                //Add new Criteria to Collection
+                if (Criterias != null) {
                     Criterias.Add(args);
                 } else {
                     Criterias = new ObservableRangeCollection<Criteria>();
                     Criterias.Add(args);
                 }
                 CurrentEvaluation.Criterias = new List<Criteria>(Criterias.ToList());
+
+                //Update full Evaluation
+                SqLiteConnection.InsertOrReplaceWithChildren(args);
+
+                //SqLiteConnection.InsertOrReplaceWithChildren(new CriteriaOption() {
+                //    Criterias = CurrentEvaluation.Criterias.ToList(),
+                //    Options = CurrentEvaluation.Options.ToList()
+                //}
+                //);
+
+                // SqLiteConnection.UpdateWithChildren(args);
                 SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
             });
 
             MessagingCenter.Subscribe<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", (sender, args) => {
                 CurrentEvaluation = args;
 
-              
+
                 if (CurrentEvaluation.Criterias != null) {
                     Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
-                } 
-                else {
+                } else {
                     Criterias = new ObservableRangeCollection<Criteria>();
+                }
+
+                if (CurrentEvaluation.Options != null) {
+                    Options = new ObservableRangeCollection<Option>(CurrentEvaluation.Options);
+                } else {
+                    Options = new ObservableRangeCollection<Option>();
                 }
             });
 
@@ -99,6 +145,6 @@ namespace Matricis.ViewModels {
             var page = Application.Current.MainPage as TabbedPage;
             await page.Children[2].Navigation.PushAsync(new NewCriteriaPage());
         }
-        }
     }
+}
 

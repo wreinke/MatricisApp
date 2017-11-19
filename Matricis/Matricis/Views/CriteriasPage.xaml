@@ -2,7 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Matricis.ViewModels"
-             x:Class="Matricis.Views.CriteriasPage">
+             xmlns:sync="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:data="clr-namespace:Syncfusion.DataSource;assembly=Syncfusion.DataSource.Portable"
+             x:Class="Matricis.Views.CriteriasPage"
+             x:Name="CriteriasPage">
     <ContentPage.BindingContext>
         <vm:CriteriasViewModel/>
     </ContentPage.BindingContext>
@@ -11,33 +14,35 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <ListView x:Name="ItemsListView"
-				BackgroundColor="Aqua"
-                ItemsSource="{Binding Criterias}"
-                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                VerticalOptions="FillAndExpand"
-                HasUnevenRows="true"
-                RefreshCommand="{Binding LoadCriteriasCommand}"
-                IsPullToRefreshEnabled="true"
-                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                CachingStrategy="RecycleElement">
-                <ListView.ItemTemplate>
+            <sync:SfListView x:Name="listView"
+                   IsStickyGroupHeader="True"
+                   SelectionMode="None"
+                   SelectedItem="{Binding SelectedItem}"
+                   ItemsSource="{Binding Criterias}"  
+                   AllowGroupExpandCollapse="True"
+                   ItemSize="200">
+
+                <sync:SfListView.DataSource>
+                    <data:DataSource>
+                        <data:DataSource.GroupDescriptors>
+                            <data:GroupDescriptor PropertyName="Title" />
+                        </data:DataSource.GroupDescriptors>
+                    </data:DataSource>
+                </sync:SfListView.DataSource>
+                <sync:SfListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10">
-                                <Label Text="{Binding Title}"
-                       LineBreakMode="NoWrap"
-                       Style="{DynamicResource ListItemTextStyle}"
-                       FontSize="16"/>
-                                <Label Text="{Binding Descripion}"
-                       LineBreakMode="NoWrap"
-                       Style="{DynamicResource ListItemDetailTextStyle}"
-                       FontSize="13"/>
-                            </StackLayout>
-                        </ViewCell>
+                        <sync:SfListView Orientation="Vertical" ItemsSource="{Binding Path=BindingContext.Options, Source={x:Reference Name=CriteriasPage}}" AllowGroupExpandCollapse="True">
+                            <sync:SfListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout>
+                                        <Label Text="{Binding Title}"/>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </sync:SfListView.ItemTemplate>
+                        </sync:SfListView>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </sync:SfListView.ItemTemplate>
+            </sync:SfListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

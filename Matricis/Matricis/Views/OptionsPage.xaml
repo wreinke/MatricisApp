@@ -4,7 +4,9 @@
              xmlns:sync="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              xmlns:data="clr-namespace:Syncfusion.DataSource;assembly=Syncfusion.DataSource.Portable"
              xmlns:vm="clr-namespace:Matricis.ViewModels"
-             x:Class="Matricis.Views.OptionsPage">
+             x:Class="Matricis.Views.OptionsPage"
+             x:Name="OptionsPage">
+    
     <ContentPage.BindingContext>
         <vm:OptionsViewModel/>
     </ContentPage.BindingContext>
@@ -50,7 +52,7 @@
 
                 <sync:SfListView.ItemTemplate>
                     <DataTemplate>
-                        <sync:SfListView Orientation="Vertical" ItemsSource="{Binding Criterias}" AllowGroupExpandCollapse="True" >
+                        <sync:SfListView Orientation="Vertical" ItemsSource="{Binding Path=BindingContext.Criterias, Source={x:Reference Name=OptionsPage}}" AllowGroupExpandCollapse="True" >
                             
                             <sync:SfListView.ItemTemplate>
                                 <DataTemplate>

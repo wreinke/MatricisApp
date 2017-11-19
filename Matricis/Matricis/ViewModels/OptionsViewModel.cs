@@ -9,14 +9,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace Matricis.ViewModels
-{
-    public class OptionsViewModel : BaseViewModel
-    {
+namespace Matricis.ViewModels {
+    public class OptionsViewModel : BaseViewModel {
         private Option selectedItem;
         private ObservableRangeCollection<Option> options;
+        private ObservableRangeCollection<Criteria> criterias;
 
-        public ObservableRangeCollection<Option> Options {
+        public ObservableRangeCollection<Option> Options
+        {
 
             get
             {
@@ -28,8 +28,6 @@ namespace Matricis.ViewModels
                 SetProperty(ref options, value);
             }
         }
-
-        private ObservableRangeCollection<Criteria> criterias;
 
         public ObservableRangeCollection<Criteria> Criterias
         {
@@ -61,35 +59,62 @@ namespace Matricis.ViewModels
             }
         }
 
-        public Command LoadCriteriasCommand { get; set; }
+        //public Command LoadCriteriasCommand { get; set; }
         public Command AddOptionClickedCommand { get; set; }
         public Evaluation CurrentEvaluation { get; private set; }
 
         public OptionsViewModel() {
             Title = "Browse";
             LoadOptions();
-            LoadCriteriasCommand = new Command(() => LoadOptions());
+            //LoadCriteriasCommand = new Command(() => LoadOptions());
             AddOptionClickedCommand = new Command(async () => await AddOptionClickedAsync());
 
-            MessagingCenter.Subscribe<NewOptionViewModel,Option>(this, "AddOptionM", (sender,args) => {
+            MessagingCenter.Subscribe<NewOptionViewModel, Option>(this, "AddOptionM", (sender, args) => {
+
+                //Add Criterias to new Option
+                if (CurrentEvaluation.Criterias != null) {
+                    args.Criterias = CurrentEvaluation.Criterias;
+                }
+
+                //Add new Option to Optionlist
                 Options.Add(args);
+
+                // Update CurrentEvaluation object
+                CurrentEvaluation.Options = new List<Option>(Options.ToList());
+                //   SqLiteConnection.UpdateWithChildren(args);
+                SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
+            });
+
+            MessagingCenter.Subscribe<NewCriteriaViewModel, Criteria>(this, "AddCriteriaM", (sender, args) => {
+
+                foreach (var _option in CurrentEvaluation.Options)
+                    if (_option.Criterias != null) {
+                        _option.Criterias.Add(args);
+                    } else {
+                        _option.Criterias = new ObservableRangeCollection<Criteria>().ToList();
+                        _option.Criterias.Add(args);
+                    }
+
                 CurrentEvaluation.Options = new List<Option>(Options.ToList());
                 SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
+                Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
             });
 
             MessagingCenter.Subscribe<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", (sender, args) => {
                 CurrentEvaluation = args;
 
-                if (CurrentEvaluation.Criterias != null) {
+                if (CurrentEvaluation.Options != null) {
                     Options = new ObservableRangeCollection<Option>(CurrentEvaluation.Options);
-                    Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
                 } else {
                     Options = new ObservableRangeCollection<Option>();
+                }
+
+                if (CurrentEvaluation.Criterias != null) {
+                    Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
+                } else {
                     Criterias = new ObservableRangeCollection<Criteria>();
                 }
-                foreach (Option o in Options) {
-                    o.Criterias = Criterias.ToList();
-                }
+                                
             });
         }
 
@@ -105,21 +130,15 @@ namespace Matricis.ViewModels
 
             IsBusy = true;
 
-            try 
-            {
+            try {
                 Options = new ObservableRangeCollection<Option>(SqLiteConnection.GetWithChildren<Evaluation>(CurrentEvaluation.Id).Options.ToList());
 
-            }
-            catch (Exception ex) 
-            {
-                if (ex.Message == "no such table: Option")
-                {
+            } catch (Exception ex) {
+                if (ex.Message == "no such table: Option") {
                     SqLiteConnection.CreateTable<Option>();
                     Options = new ObservableRangeCollection<Option>(SqLiteConnection.GetWithChildren<Evaluation>(CurrentEvaluation.Id).Options.ToList());
                 }
-            } 
-            finally 
-            {
+            } finally {
                 IsBusy = false;
             }
         }

@@ -40,7 +40,7 @@ namespace Matricis.ViewModels {
 
             MessagingCenter.Subscribe<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", (sender, args) => {
                 CurrentEvaluation = args;
-                GetScores();
+                //GetScores();
             });
         }
 
