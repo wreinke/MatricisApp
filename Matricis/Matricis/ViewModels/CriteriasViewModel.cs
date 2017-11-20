@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System;
 
 namespace Matricis.ViewModels {
     public class CriteriasViewModel : BaseViewModel {
@@ -77,49 +78,18 @@ namespace Matricis.ViewModels {
 
             Title = "Browse";
             AddItemClickedCommand = new Command(async () => await AddItemClickedAsync());
+            InitMessaging();
+        }
 
-            MessagingCenter.Subscribe<NewOptionViewModel, Option>(this, "AddOptionM", (sender, args) => {
+        private void InitMessaging() {
 
-                foreach (var _criteria in CurrentEvaluation.Criterias)
-                    if (_criteria.Options != null) {
-                        _criteria.Options.Add(args);
-                    } else {
-                        _criteria.Options = new ObservableRangeCollection<Option>().ToList();
-                        _criteria.Options.Add(args);
-                    }
-                CurrentEvaluation.Criterias = new List<Criteria>(Criterias.ToList());
-                SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
-                Options = new ObservableCollection<Option>(CurrentEvaluation.Options);
-                //Criterias = new ObservableRangeCollection<Criteria>(SqLiteConnection.GetAllWithChildren<Criteria>().Where(c => c.EvaluationID == CurrentEvaluation.Id));
-            });
+            SubscribeAddOptionM();
+            SubscribeAddCriteriaM();
+            SubscribeAddEvaluationM();
 
-            MessagingCenter.Subscribe<NewCriteriaViewModel, Criteria>(this, "AddCriteriaM", (sender, args) => {
+        }
 
-                //Add Options to new Criteria
-                args.Options = CurrentEvaluation.Options;
-
-                //Add new Criteria to Collection
-                if (Criterias != null) {
-                    Criterias.Add(args);
-                } else {
-                    Criterias = new ObservableRangeCollection<Criteria>();
-                    Criterias.Add(args);
-                }
-                CurrentEvaluation.Criterias = new List<Criteria>(Criterias.ToList());
-
-                //Update full Evaluation
-                SqLiteConnection.InsertOrReplaceWithChildren(args);
-
-                //SqLiteConnection.InsertOrReplaceWithChildren(new CriteriaOption() {
-                //    Criterias = CurrentEvaluation.Criterias.ToList(),
-                //    Options = CurrentEvaluation.Options.ToList()
-                //}
-                //);
-
-                // SqLiteConnection.UpdateWithChildren(args);
-                SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
-            });
-
+        private void SubscribeAddEvaluationM() {
             MessagingCenter.Subscribe<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", (sender, args) => {
                 CurrentEvaluation = args;
 
@@ -136,7 +106,42 @@ namespace Matricis.ViewModels {
                     Options = new ObservableRangeCollection<Option>();
                 }
             });
+        }
 
+        private void SubscribeAddCriteriaM() {
+            MessagingCenter.Subscribe<NewCriteriaViewModel, Criteria>(this, "AddCriteriaM", (sender, args) => {
+
+                //Add Options to new Criteria
+                args.Options = CurrentEvaluation.Options;
+
+                //Add new Criteria to Collection
+                if (Criterias != null) {
+                    Criterias.Add(args);
+                } else {
+                    Criterias = new ObservableRangeCollection<Criteria>();
+                    Criterias.Add(args);
+                }
+                CurrentEvaluation.Criterias = new List<Criteria>(Criterias.ToList());
+
+                //Update full Evaluation
+                SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
+            });
+        }
+
+        private void SubscribeAddOptionM() {
+            MessagingCenter.Subscribe<NewOptionViewModel, Option>(this, "AddOptionM", (sender, args) => {
+
+                foreach (var _criteria in CurrentEvaluation.Criterias)
+                    if (_criteria.Options != null) {
+                        _criteria.Options.Add(args);
+                    } else {
+                        _criteria.Options = new ObservableRangeCollection<Option>().ToList();
+                        _criteria.Options.Add(args);
+                    }
+                CurrentEvaluation.Criterias = new List<Criteria>(Criterias.ToList());
+                SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
+                Options = new ObservableCollection<Option>(CurrentEvaluation.Options);
+            });
         }
 
         private async Task AddItemClickedAsync() {

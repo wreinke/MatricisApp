@@ -14,10 +14,12 @@ namespace Matricis.ViewModels {
 
         public NewOptionViewModel() {
             Option = new Option();
-
             SaveClickedCommand = new Command(async () => await SaveClickedAsync());
         }
 
+        /// <summary>
+        /// Saves Options locally and popasync
+        /// </summary>
         private async Task SaveClickedAsync() {
             if (Option != null) {
                 try {
