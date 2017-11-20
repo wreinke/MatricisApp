@@ -1,8 +1,6 @@
 ﻿using Matricis.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -38,8 +36,6 @@ namespace Matricis.ViewModels {
                     NavigationPage navPage = page.Children[0] as NavigationPage;
                     await navPage.Navigation.PopAsync();
                 }
-
-                //await Application.Current.MainPage.Navigation.PopToRootAsync();
             }
         }
     }

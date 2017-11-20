@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using System;
 
 namespace Matricis.ViewModels {
     public class CriteriasViewModel : BaseViewModel {
