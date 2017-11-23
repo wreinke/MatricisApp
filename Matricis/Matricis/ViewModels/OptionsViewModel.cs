@@ -1,7 +1,6 @@
 ﻿using Matricis.Helpers;
 using Matricis.Models;
 using Matricis.Views;
-using SQLite;
 using SQLiteNetExtensions.Extensions;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,7 @@ namespace Matricis.ViewModels {
         private Option selectedItem;
         private ObservableRangeCollection<Option> options;
         private ObservableRangeCollection<Criteria> criterias;
-
+                
         public ObservableRangeCollection<Option> Options
         {
 
@@ -59,16 +58,32 @@ namespace Matricis.ViewModels {
             }
         }
 
-        //public Command LoadCriteriasCommand { get; set; }
         public Command AddOptionClickedCommand { get; set; }
         public Evaluation CurrentEvaluation { get; private set; }
 
         public OptionsViewModel() {
-            Title = "Browse";
-            LoadOptions();
-            //LoadCriteriasCommand = new Command(() => LoadOptions());
-            AddOptionClickedCommand = new Command(async () => await AddOptionClickedAsync());
 
+            Title = "Browse";
+            AddOptionClickedCommand = new Command(async () => await AddOptionClickedAsync());
+            InitMessaging();
+
+        }
+        
+        private void InitMessaging() {
+
+            SubscribeAddOptionM();
+            SubscribeAddCriteriaM();
+            SubscribeAddEvaluationM();
+
+        }
+
+        private async Task AddOptionClickedAsync() {
+
+            var page = Application.Current.MainPage as TabbedPage;
+            await page.Children[1].Navigation.PushAsync(new NewOptionPage());
+        }
+
+        private void SubscribeAddOptionM() {
             MessagingCenter.Subscribe<NewOptionViewModel, Option>(this, "AddOptionM", (sender, args) => {
 
                 //Add Criterias to new Option
@@ -81,12 +96,21 @@ namespace Matricis.ViewModels {
 
                 // Update CurrentEvaluation object
                 CurrentEvaluation.Options = new List<Option>(Options.ToList());
-                //   SqLiteConnection.UpdateWithChildren(args);
-                SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
-            });
 
+                try {
+                    SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
+                } catch (Exception e) {
+                    throw new NotImplementedException();
+                }
+            });
+        }
+
+        private void SubscribeAddCriteriaM() {
             MessagingCenter.Subscribe<NewCriteriaViewModel, Criteria>(this, "AddCriteriaM", (sender, args) => {
 
+                Criterias.Add(args);
+
+                //neues Criteria für jede Option in CurrentEvaluation hinzufügen
                 foreach (var _option in CurrentEvaluation.Options)
                     if (_option.Criterias != null) {
                         _option.Criterias.Add(args);
@@ -95,14 +119,19 @@ namespace Matricis.ViewModels {
                         _option.Criterias.Add(args);
                     }
 
-                CurrentEvaluation.Options = new List<Option>(Options.ToList());
-                SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
-                Criterias = new ObservableRangeCollection<Criteria>(CurrentEvaluation.Criterias);
+                // Current Evaluation update
+                try {
+                    SqLiteConnection.UpdateWithChildren(CurrentEvaluation);
+                } catch (Exception e) {
+                    throw new NotImplementedException();
+                }
             });
+        }
 
+        private void SubscribeAddEvaluationM() {
             MessagingCenter.Subscribe<EvaluationsViewModel, Evaluation>(this, "EvaluationSelectedM", (sender, args) => {
-                CurrentEvaluation = args;
 
+                CurrentEvaluation = args;
                 if (CurrentEvaluation.Options != null) {
                     Options = new ObservableRangeCollection<Option>(CurrentEvaluation.Options);
                 } else {
@@ -114,33 +143,7 @@ namespace Matricis.ViewModels {
                 } else {
                     Criterias = new ObservableRangeCollection<Criteria>();
                 }
-                                
             });
-        }
-
-        private async Task AddOptionClickedAsync() {
-
-            var page = Application.Current.MainPage as TabbedPage;
-            await page.Children[1].Navigation.PushAsync(new NewOptionPage());
-        }
-
-        private void LoadOptions() {
-            if (IsBusy)
-                return;
-
-            IsBusy = true;
-
-            try {
-                Options = new ObservableRangeCollection<Option>(SqLiteConnection.GetWithChildren<Evaluation>(CurrentEvaluation.Id).Options.ToList());
-
-            } catch (Exception ex) {
-                if (ex.Message == "no such table: Option") {
-                    SqLiteConnection.CreateTable<Option>();
-                    Options = new ObservableRangeCollection<Option>(SqLiteConnection.GetWithChildren<Evaluation>(CurrentEvaluation.Id).Options.ToList());
-                }
-            } finally {
-                IsBusy = false;
-            }
         }
     }
 }

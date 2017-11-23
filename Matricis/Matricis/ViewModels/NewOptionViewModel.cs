@@ -1,8 +1,5 @@
 ﻿using Matricis.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -14,10 +11,12 @@ namespace Matricis.ViewModels {
 
         public NewOptionViewModel() {
             Option = new Option();
-
             SaveClickedCommand = new Command(async () => await SaveClickedAsync());
         }
 
+        /// <summary>
+        /// Saves Options locally and popasync
+        /// </summary>
         private async Task SaveClickedAsync() {
             if (Option != null) {
                 try {

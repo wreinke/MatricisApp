@@ -1,6 +1,5 @@
 ﻿using Matricis.Models;
 using SQLiteNetExtensions.Extensions;
-using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -13,10 +12,12 @@ namespace Matricis.ViewModels {
 
         public NewCriteriaViewModel() {
             Criteria = new Criteria();
-
             SaveClickedCommand = new Command(async () => await SaveClickedAsync());
         }
 
+        /// <summary>
+        /// Save Criteria locally and popAsync
+        /// </summary>
         private async Task SaveClickedAsync() {
             if (Criteria != null) {
                 try {
@@ -31,7 +32,7 @@ namespace Matricis.ViewModels {
                     }
 
                 } finally {
-                    SqLiteConnection.Insert(Criteria);
+                    SqLiteConnection.InsertWithChildren(Criteria);
                     MessagingCenter.Send<NewCriteriaViewModel, Criteria>(this, "AddCriteriaM", Criteria);
                     var page = Application.Current.MainPage as TabbedPage;
                     await page.Children[2].Navigation.PopAsync();

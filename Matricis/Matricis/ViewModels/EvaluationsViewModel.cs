@@ -1,12 +1,9 @@
 ﻿using Matricis.Helpers;
 using Matricis.Models;
 using Matricis.Views;
-using SQLite;
 using SQLiteNetExtensions.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -53,15 +50,11 @@ namespace Matricis.ViewModels {
             }
         }
 
-        //public Command LoadEvaluationsCommand { get; set; }
         public Command AddItemClickedCommand { get; set; }
 
         public EvaluationsViewModel() {
             LoadEvaluations();
-
-            //LoadEvaluationsCommand = new Command(() => LoadEvaluations());
             AddItemClickedCommand = new Command(async () => await AddItemClickedAsync());
-
             MessagingCenter.Subscribe<NewEvaluationViewModel>(this, "AddEvaluationM", (sender) => {
                 LoadEvaluations();
             });
@@ -90,7 +83,7 @@ namespace Matricis.ViewModels {
                 Evaluations = new ObservableRangeCollection<Evaluation>(SqLiteConnection.GetAllWithChildren<Evaluation>());
 
             } catch (Exception ex) {
-                if (ex.Message == "no such table: Evaluation"  || ex.Message == "no such table: Criteria" || ex.Message == "no such table: Option") {
+                if (ex.Message == "no such table: Evaluation"  || ex.Message == "no such table: Criteria" || ex.Message == "no such table: Option" || ex.Message == "no such table: CriteriaOption") {
                     SqLiteConnection.CreateTable<Criteria>();
                     SqLiteConnection.CreateTable<Option>();
                     SqLiteConnection.CreateTable<Evaluation>();
